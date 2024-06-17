@@ -1,3 +1,5 @@
+from unidad import Unidad
+from edificio import Edificio
 class Jugador():
     def __init__(self, nombre:str, color:str, raza:str, oro:int, madera:int) -> None:
         self.__nombre = nombre
@@ -5,6 +7,8 @@ class Jugador():
         self.__raza = raza
         self.__oro = oro
         self.__madera = madera
+        self.__unidades = []
+        self.__edificios = []
         
     #GETTERS Y SETTERS
     @property
@@ -44,19 +48,28 @@ class Jugador():
         pass #calcular poblacion actual
 
     #METODOS
-    def comprarEdificio():
+    def comprarEdificio(self, tipoEdificio:str, precioCompraMadera:int,
+                 vida:int, nuevo_edificio:Edificio) -> Edificio :
+        nuevo_edificio = Edificio(tipoEdificio, precioCompraMadera, vida)
+        self.__edificios.append(nuevo_edificio)
+        return nuevo_edificio
+
+    def mejorarEdificios(self, edificio:Edificio):
+        if edificio in self.__edificios:
+            edificio
         pass
 
-    def mejorarEdificios():
-        pass
-
-    def eliminarEdificio():
+    def eliminarEdificio(self, edificio:Edificio):
+        if edificio in self.__edificios:
+            self.__edificios.remove(edificio)
         pass
 
     def mejorarUnidades():
         pass
 
-    def eliminarUnidad():
+    def eliminarUnidad(self,unidad:Unidad):
+        if unidad in self.__unidades:
+            self.__unidades.remove(unidad)
         pass
 
     def perder():

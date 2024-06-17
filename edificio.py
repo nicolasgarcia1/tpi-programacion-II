@@ -1,5 +1,4 @@
-from jugador import Jugador
-
+from unidad import Unidad
 class Edificio():
     def __init__(self, tipoEdificio:str, precioCompraMadera:int,
                  vida:int) -> None:
@@ -30,9 +29,15 @@ class Edificio():
     @vida.setter
     def vida(self, newVida:int):
         self.__vida = newVida
+        if self.__vida <= 0:
+            self.morir()
 
-    def crearUnidad():
-        pass
+    def crearUnidad(self, tipoUnidad:str, precioCompraOro:int,
+                 vida:int, tipoDaño:str, daño:int, jugador:str):
+        nueva_unidad = Unidad(tipoUnidad, precioCompraOro, vida, tipoDaño, daño , jugador)
+        return nueva_unidad
 
-    def morir():
-        pass
+    def morir(self):
+        self.__vida = 0
+        print(f"{self.tipoEdificio} ha muerto")
+        del self

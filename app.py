@@ -32,3 +32,19 @@ if __name__ == '__main__':
         else:
             print('Opción invalida.')
             time.sleep(1.5)
+
+from jugador import Jugador
+from edificio import Edificio
+from unidad import Unidad
+
+# Crear jugador
+jugador1 = Jugador("Juan", "Rojo", "Humanos", 100, 50)
+
+# Construir un edificio
+cuartel = Edificio("Cuartel", 50, 200)
+
+# Crear una unidad desde el edificio, vinculada al jugador propietario
+soldado_cuartel = cuartel.crearUnidad("Soldado", 10, 100, "Físico", 20, jugador1)
+
+# Verificar el propietario de la unidad
+print(f"El propietario de {soldado_cuartel.tipoUnidad} es {soldado_cuartel.jugador.nombre}")

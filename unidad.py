@@ -1,5 +1,3 @@
-from jugador import Jugador
-from edificio import Edificio
 from abc import ABC, abstractmethod
 
 # buscar forma de asociar cada unidad creada a su correspondiente jugador
@@ -9,15 +7,19 @@ class Unidad(ABC):
 
     nivel_inicial = 1
 
-    @abstractmethod
     def __init__(self, tipoUnidad:str, precioCompraOro:int,
-                 vida:int, tipoDaño:str, daño:int):
+                 vida:int, tipoDaño:str, daño:int, jugador):
         self.__tipoUnidad = tipoUnidad
         self.__precioCompraOro = precioCompraOro
-        self.__nivel = Unidad.nivel_inicial
+        self.__nivel = 1
         self.__vida = vida
         self.__tipoDaño = tipoDaño
         self.__daño = daño
+        self.__jugador = jugador
+
+    @property
+    def jugador(self):
+        return self.__jugador
 
     @property
     def tipoUnidad(self):
@@ -50,6 +52,8 @@ class Unidad(ABC):
     @vida.setter
     def vida(self, newVida):
         self.__vida = newVida
+        if self.__vida <= 0:
+            self.morir()
 
     @property
     def tipoDaño(self):
@@ -70,4 +74,5 @@ class Unidad(ABC):
     def morir(self) -> None:
         self.__vida = 0
         print(f"{self.tipoUnidad} ha muerto")
+        del self
         # crear atributo booleano "muerto" ?
