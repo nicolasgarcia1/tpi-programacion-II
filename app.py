@@ -48,3 +48,22 @@ soldado_cuartel = cuartel.crearUnidad("Soldado", 10, 100, "Físico", 20, jugador
 
 # Verificar el propietario de la unidad
 print(f"El propietario de {soldado_cuartel.tipoUnidad} es {soldado_cuartel.jugador.nombre}")
+print(f"Lista de edificios :{jugador1.edificios}")
+print(f"Lista de unidades :{jugador1.unidades}")
+
+
+# Ejemplo de creación y manejo de unidades
+from jugador import Jugador
+from unidad import Soldado  # Suponiendo que Soldado es una subclase de Unidad
+
+# Crear jugador
+jugador1 = Jugador("Juan", "Rojo", "Humano", 100, 50)
+
+# Crear unidad (Soldado)
+soldado = Soldado("Soldado", 10, 100, "Físico", 20, jugador1)
+
+# Añadir unidad al jugador
+jugador1.unidades.append(soldado)
+
+# Si la unidad muere (vida <= 0), se eliminará automáticamente de la lista de unidades del jugador
+soldado.vida = 0  # Esto llamará a soldado.morir() y eliminará soldado de jugador1.unidades

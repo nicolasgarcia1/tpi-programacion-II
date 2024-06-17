@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+
 
 # buscar forma de asociar cada unidad creada a su correspondiente jugador
 # crear lista de unidades en clase jugador ?
@@ -72,7 +73,8 @@ class Unidad(ABC):
         self.__daño = newDaño
 
     def morir(self) -> None:
+        from jugador import eliminarUnidad
         self.__vida = 0
         print(f"{self.tipoUnidad} ha muerto")
-        del self
+        self.jugador.eliminarUnidad(self)
         # crear atributo booleano "muerto" ?

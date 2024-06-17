@@ -47,9 +47,25 @@ class Jugador():
     def poblacionActual():
         pass #calcular poblacion actual
 
+    @property
+    def agregarEdificio(self):
+        return self.__edificios
+    
+    @agregarEdificio.setter
+    def agregarEdificio(self,nuevo_edificio):
+        self.__edificios.append(nuevo_edificio)
+
+    @property
+    def agregarUnidad(self):
+        return self.__unidades
+    
+    @agregarUnidad.setter
+    def agregarUnidad(self,nueva_unidad):
+        self.__unidades.append(nueva_unidad)
+
     #METODOS
     def comprarEdificio(self, tipoEdificio:str, precioCompraMadera:int,
-                 vida:int, nuevo_edificio:Edificio) -> Edificio :
+                 vida:int) -> Edificio :
         nuevo_edificio = Edificio(tipoEdificio, precioCompraMadera, vida)
         self.__edificios.append(nuevo_edificio)
         return nuevo_edificio
@@ -61,7 +77,7 @@ class Jugador():
 
     def eliminarEdificio(self, edificio:Edificio):
         if edificio in self.__edificios:
-            self.__edificios.remove(edificio)
+            self.edificios.remove(edificio)
         pass
 
     def mejorarUnidades():
