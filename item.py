@@ -1,12 +1,12 @@
 class Item():
-    def __init__(self, nombre:str, precioCompra:int, precioVenta:int, daño:int, vida:int, armadura:int, mana,int) -> None:
+    def __init__(self, nombre:str, precioCompra:int, precioVenta:int, 
+                 daño:int, vida:int, defensa:int) -> None:
         self.__nombre = nombre
         self.__precioCompra = precioCompra
         self.__precioVenta = precioVenta
         self.__daño = daño
         self.__vida = vida
-        self.__armadura = armadura
-        self.__mana = mana
+        self.__defensa = defensa
 
     @property
     def nombre(self):
@@ -29,12 +29,8 @@ class Item():
         return self.__vida
 
     @property
-    def armadura(self):
-        return self.__armadura
-
-    @property
-    def mana(self):
-        return self.__mana
+    def defensa(self):
+        return self.__defensa
 
     def __str__(self) -> str:
         attributos = [
@@ -46,8 +42,8 @@ class Item():
             attributos.append(f"Daño: {self.daño}")
         if self.vida != 0:
             attributos.append(f"Vida: {self.vida}")
-        if self.armadura != 0:
-            attributos.append(f"Armadura: {self.armadura}")
+        if self.defensa != 0:
+            attributos.append(f"defensa: {self.defensa}")
         if self.mana != 0:
             attributos.append(f"Mana: {self.mana}")
         return ', '.join(attributos)

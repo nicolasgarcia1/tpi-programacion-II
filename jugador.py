@@ -1,19 +1,23 @@
 from unidad import Unidad
 from edificio import Edificio
+
 class Jugador():
-    def __init__(self, nombre:str, color:str, raza:str, oro:int, madera:int) -> None:
+    def __init__(self, nombre:str, color:str, raza:str, oro:int, madera:int, edificios:int=0) -> None:
         self.__nombre = nombre
         self.__color = color
         self.__raza = raza
         self.__oro = oro
         self.__madera = madera
         self.__unidades = []
-        self.__edificios = []
+        self.__edificios = edificios
         
     #GETTERS Y SETTERS
     @property
     def nombre(self):
         return self.__nombre
+
+    @nombre.setter
+
     
     @property
     def color(self):
@@ -48,42 +52,47 @@ class Jugador():
         pass #calcular poblacion actual
 
     @property
-    def agregarEdificio(self):
+    def edificios(self):
         return self.__edificios
     
-    @agregarEdificio.setter
-    def agregarEdificio(self,nuevo_edificio):
-        self.__edificios.append(nuevo_edificio)
-
+    @edificios.setter
+    def edificios(self, newEdificio):
+        self.__edificios = newEdificio
+    
     @property
-    def agregarUnidad(self):
+    def unidades(self):
         return self.__unidades
     
-    @agregarUnidad.setter
-    def agregarUnidad(self,nueva_unidad):
-        self.__unidades.append(nueva_unidad)
+    @unidades.setter
+    def agregarUnidad(self, nuevas_unidades):
+        self.__unidades = nuevas_unidades
 
     #METODOS
-    def comprarEdificio(self, tipoEdificio:str, precioCompraMadera:int,
+
+    def comprarUnidad(self, tipoUnidad, tipoDaño, tipoDefensa, xp, defensa, daño, vida, precioCompraOro):
+        nueva_unidad = Unidad(tipoUnidad, tipoDaño, tipoDefensa, xp, defensa, daño, vida, precioCompraOro)
+        self.__unidades.append(nueva_unidad)
+    def comprarEdificio(self, precioCompraMadera:int,
                  vida:int) -> Edificio :
-        nuevo_edificio = Edificio(tipoEdificio, precioCompraMadera, vida)
-        self.__edificios.append(nuevo_edificio)
-        return nuevo_edificio
-
-    def mejorarEdificios(self, edificio:Edificio):
-        if edificio in self.__edificios:
-            edificio
+        if self.__madera >= 15:
+            nuevo_edificio = Edificio(precioCompraMadera, vida)
+            self.__edificios += 1
+            return nuevo_edificio
         pass
 
-    def eliminarEdificio(self, edificio:Edificio):
-        if edificio in self.__edificios:
-            self.edificios.remove(edificio)
+    def eliminarEdificio(self):
+        self.__edificios -= 1
         pass
 
-    def mejorarUnidades():
-        pass
+    
+    def crearUnidad(self, tipoUnidad:str, precioCompraOro:int,
+                 vida:int, tipoDaño:str, daño:int, jugador:str):
+        nueva_unidad = Unidad(tipoUnidad, precioCompraOro, vida, tipoDaño, daño)
+        self.agregarUnidad(self, nueva_unidad)
+        return nueva_unidad
 
-    def eliminarUnidad(self,unidad:Unidad):
+
+    def eliminarUnidad(self, unidad:Unidad):
         if unidad in self.__unidades:
             self.__unidades.remove(unidad)
         pass

@@ -2,15 +2,49 @@ from datos import *
 import os
 import platform
 import time
+from partida import Partida
+from jugador import Jugador
 
 def menu_inicial():
     limpiar_pantalla()
     opcion = int(input('''****************MENU DE INICIO****************
     1. Comenzar partida
-    2. Editar partida
-    3. Cerrar juego
+    2. Cerrar juego
     Seleccione una opcion: '''))
     return opcion
+
+
+def menu_partida():
+    limpiar_pantalla()
+    mapas = list(memory_card.keys())
+
+    for i, mapa in enumerate(mapas):
+        print(f"{i+1}. {mapa}")
+    opcion = int(input('Seleccione el mapa: '))
+
+    mapa_elegido = mapas[opcion-1]
+    partida_creada = Partida(mapa_elegido,
+                      memory_card[mapa_elegido]['recursos']['cantidadMadera'],
+                      memory_card[mapa_elegido]['recursos']['cantidadOro'],
+                      len(memory_card[mapa_elegido]['jugadores']))
+    
+    jugadores_partida = instanciarJugadores(partida_creada, mapa_elegido) 
+    # revisar !!!
+    return partida_creada
+
+
+def instanciarJugadores(partida_creada, mapa_elegido):
+    jugadores = []
+    for jugador in memory_card[mapa_elegido]['jugadores']:
+        nombre = jugador['nombreJugador']
+        color = jugador['color']
+        raza = jugador['raza']
+        oro = jugador['oro']
+        madera = jugador['madera']
+        jugador_instanciado = Jugador(nombre, color, raza, oro, madera)
+        jugadores.append(jugador_instanciado)
+    return jugadores
+
 
 def limpiar_pantalla():
     if platform.system() == 'Windows':
@@ -22,10 +56,8 @@ if __name__ == '__main__':
     while True:
         opcion = menu_inicial()
         if opcion == 1:
-            pass
+            partida_creada = menu_partida()
         elif opcion == 2:
-            pass
-        elif opcion == 3:
             print('Gracias por jugar GUARCRAF TRE\nCerrando juego...')
             time.sleep(2)
             break

@@ -1,26 +1,63 @@
-from abc import ABC
-
+from abc import ABC, abstractmethod
+from jugador import eliminarUnidad
+from unidad import Unidad
 
 # buscar forma de asociar cada unidad creada a su correspondiente jugador
 # crear lista de unidades en clase jugador ?
 
 class Unidad(ABC):
-
-    nivel_inicial = 1
-
-    def __init__(self, tipoUnidad:str, precioCompraOro:int,
-                 vida:int, tipoDaño:str, daño:int, jugador):
+    
+    @abstractmethod
+    def __init__(self, tipoUnidad:str, tipoDaño:str, tipoDefensa:str, xp:int, defensa:int=100, daño:int=100, vida:int=500, precioCompraOro:int=100):
         self.__tipoUnidad = tipoUnidad
-        self.__precioCompraOro = precioCompraOro
         self.__nivel = 1
         self.__vida = vida
         self.__tipoDaño = tipoDaño
-        self.__daño = daño
-        self.__jugador = jugador
+        self.__tipoDefensa = tipoDefensa
+        self.__xp = xp
+        # Ajustar el daño según el tipo de daño
+        if tipoDaño == "Normal":
+            self.__daño = daño
+            self.__precioCompraOro = precioCompraOro
+        elif tipoDaño == "Perforante":
+            self.__daño = daño * 1.25
+            self.__precioCompraOro = precioCompraOro * 1.25
+        elif tipoDaño == "Asedio":
+            self.__daño = daño * 1.50
+            self.__precioCompraOro = precioCompraOro * 1.50
+        elif tipoDaño == "Magico":
+            self.__daño = daño * 1.75
+            self.__precioCompraOro = precioCompraOro * 1.75
+        
+        # Ajustar la defensa según el tipo de defensa
+        if tipoDefensa == "Sin Armadura":
+            self.__defensa = defensa
+            self.__precioCompraOro = self.__precioCompraOro + (precioCompraOro)
+        elif tipoDefensa == "Armadura Ligera":
+            self.__defensa = defensa * 1.25
+            self.__precioCompraOro = self.__precioCompraOro + (precioCompraOro * 1.25)
+        elif tipoDefensa == "Armadura Media":
+            self.__defensa = defensa * 1.50
+            self.__precioCompraOro = self.__precioCompraOro + (precioCompraOro * 1.50)
+        elif tipoDefensa == "Armadura Pesada":
+            self.__defensa = defensa * 1.75
+            self.__precioCompraOro = self.__precioCompraOro + (precioCompraOro * 1.75)
 
     @property
-    def jugador(self):
-        return self.__jugador
+    def defensa(self):
+        return self.__defensa
+
+    @defensa.setter
+    def defensa(self,nueva_defensa):
+        self.__defensa = nueva_defensa
+
+    @property
+    def tipoDefensa(self):
+        return self.__tipoDefensa
+    
+    @tipoDefensa.setter
+    def tipoDefensa(self,nuevo_tipoDefensa):
+        self.__tipoDefensa = nuevo_tipoDefensa
 
     @property
     def tipoUnidad(self):
@@ -72,9 +109,20 @@ class Unidad(ABC):
     def daño(self, newDaño):
         self.__daño = newDaño
 
+    @property
+    def xp(self):
+        return self.__xp
+    
+    @xp.setter
+    def xp(self, nueva_xp):
+        self.__xp = self.__xp + nueva_xp
+        if self.__xp >= 100:
+            self.subirnivel(self)
+
     def morir(self) -> None:
-        from jugador import eliminarUnidad
         self.__vida = 0
-        print(f"{self.tipoUnidad} ha muerto")
-        self.jugador.eliminarUnidad(self)
-        # crear atributo booleano "muerto" ?
+        self.eliminarUnidad(self)
+
+    def subirnivel(self):
+        self.__nivel += 1
+        self.__xp = self.__xp - 100

@@ -38,10 +38,10 @@ class Partida():
     def cantidadJugadores(self, newCantidadJugadores:int) -> None:
         self.__cantidadJugadores = newCantidadJugadores
 
-    @classmethod
-    def empezarPartida(cls) -> None:
+
+    def empezarPartida(self) -> None:
         pass
 
-    @classmethod
-    def terminarPartida(cls) -> None:
+
+    def terminarPartida(self) -> None:
         pass
