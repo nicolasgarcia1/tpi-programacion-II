@@ -1,101 +1,161 @@
-from datos import *
-import os
-import platform
-import time
-from partida import Partida
-from jugador import Jugador
-
-def menu_inicial():
-    limpiar_pantalla()
-    opcion = int(input('''****************MENU DE INICIO****************
-    1. Comenzar partida
-    2. Cerrar juego
-    Seleccione una opcion: '''))
-    return opcion
-
-
-def menu_partida():
-    limpiar_pantalla()
-    mapas = list(memory_card.keys())
-
-    for i, mapa in enumerate(mapas):
-        print(f"{i+1}. {mapa}")
-    opcion = int(input('Seleccione el mapa: '))
-
-    mapa_elegido = mapas[opcion-1]
-    partida_creada = Partida(mapa_elegido,
-                      memory_card[mapa_elegido]['recursos']['cantidadMadera'],
-                      memory_card[mapa_elegido]['recursos']['cantidadOro'],
-                      len(memory_card[mapa_elegido]['jugadores']))
-    
-    jugadores_partida = instanciarJugadores(partida_creada, mapa_elegido) 
-    # revisar !!!
-    return partida_creada
-
-
-def instanciarJugadores(partida_creada, mapa_elegido):
-    jugadores = []
-    for jugador in memory_card[mapa_elegido]['jugadores']:
-        nombre = jugador['nombreJugador']
-        color = jugador['color']
-        raza = jugador['raza']
-        oro = jugador['oro']
-        madera = jugador['madera']
-        jugador_instanciado = Jugador(nombre, color, raza, oro, madera)
-        jugadores.append(jugador_instanciado)
-    return jugadores
-
-
-def limpiar_pantalla():
-    if platform.system() == 'Windows':
-        os.system('cls')
-    else:
-        os.system('clear')
-
-if __name__ == '__main__':
-    while True:
-        opcion = menu_inicial()
-        if opcion == 1:
-            partida_creada = menu_partida()
-        elif opcion == 2:
-            print('Gracias por jugar GUARCRAF TRE\nCerrando juego...')
-            time.sleep(2)
-            break
-        else:
-            print('Opción invalida.')
-            time.sleep(1.5)
-
 from jugador import Jugador
 from edificio import Edificio
-from unidad import Unidad
+from datos import *
 
-# Crear jugador
-jugador1 = Jugador("Juan", "Rojo", "Humanos", 100, 50)
+print("menu principal")
+print("1 jugar")
+print("0 salir")
+opc = int(input("ingrese una opcion "))
+while opc < 0 or opc > 1:
+    opc = int(input("opcion invalida, ingrese otra: "))
 
-# Construir un edificio
-cuartel = Edificio("Cuartel", 50, 200)
+if opc == 1:
+    for i, partida in enumerate(partidas):
+        print(f"{i+1}. {partida}")
+    seleccion = int(input("Ingrese una partida "))
+    while seleccion < 1 or seleccion > len(partidas):
+        seleccion = int(input("opcion invalida, ingrese otra: "))
+    miPartida = partidas[seleccion-1]
+    
+    for i in range(miPartida.cantidadJugadores):
+        nombre = input("ingrese su nombre ")
 
-# Crear una unidad desde el edificio, vinculada al jugador propietario
-soldado_cuartel = cuartel.crearUnidad("Soldado", 10, 100, "Físico", 20, jugador1)
+        for j, color in enumerate(colores):
+            print(f"{j + 1}. {color}")
+        seleccion = int(input("ingrese su color "))
+        while seleccion < 1 or seleccion > len(colores):
+            seleccion = int(input("opcion invalida, ingrese otra: "))
+        color = colores[seleccion-1]
 
-# Verificar el propietario de la unidad
-print(f"El propietario de {soldado_cuartel.tipoUnidad} es {soldado_cuartel.jugador.nombre}")
-print(f"Lista de edificios :{jugador1.edificios}")
-print(f"Lista de unidades :{jugador1.unidades}")
+        for j, raza in enumerate(razas):
+            print(f"{j + 1}. {raza}")
+        seleccion = int(input("ingrese su raza "))
+        while seleccion < 1 or seleccion > len(razas):
+            seleccion = int(input("opcion invalida, ingrese otra: "))
+        raza = razas[seleccion-1]
 
+        jugador = Jugador(nombre=nombre, color=color, raza=raza)
+        miPartida.jugadores = jugador
 
-# Ejemplo de creación y manejo de unidades
-from jugador import Jugador
-from unidad import Soldado  # Suponiendo que Soldado es una subclase de Unidad
+    while len(miPartida.jugadores) > 1:
+        for i, jugador in enumerate(miPartida.jugadores):
+            print("0. rendirse")
+            print("1. comprar edificio")
+            print("2. seleccionar edificio")
+            print("3. comprar unidad")
+            print("4. seleccionar unidad")
+            print("5. ver stadisticas")
+            accion = int(input(f"jugador {i+1} que desea hacer: "))
+            while accion < 0 or accion > 6:
+                accion = int(input("opcion invalida, ingrese otra: "))
 
-# Crear jugador
-jugador1 = Jugador("Juan", "Rojo", "Humano", 100, 50)
+            if accion == 1:
+                edificio = Edificio()
+                jugador.comprarEdificio(edificio)
 
-# Crear unidad (Soldado)
-soldado = Soldado("Soldado", 10, 100, "Físico", 20, jugador1)
+            elif accion == 2:
+                edificioElegido = jugador.seleccionarEdificio()
+                if edificioElegido == 0:
+                    print("No tienes edificios disponibles para seleccionar.")
+                else:
+                    print("0. elimiar edificio")
+                    print("1. ver estadisticas")
+                    print("2. mejorar edificio")
+                    opc = int(input("ingrese una opcion "))
+                    while opc < 0 or opc > 2:
+                        opc = int(input("Opción invalida, ingrese otra: "))
 
-# Añadir unidad al jugador
-jugador1.unidades.append(soldado)
+                    if opc == 1:
+                        print(edificioElegido)
 
-# Si la unidad muere (vida <= 0), se eliminará automáticamente de la lista de unidades del jugador
-soldado.vida = 0  # Esto llamará a soldado.morir() y eliminará soldado de jugador1.unidades
+                    elif opc == 2:
+                        if edificioElegido.nivel < 3:
+                            if jugador.oro >= edificioElegido.precioMejoraOro and jugador.madera >= edificioElegido.precioMejoraMadera:                   
+                                jugador.oro = jugador.oro - edificioElegido.precioMejoraOro
+                                jugador.madera = jugador.madera - edificioElegido.precioMejoraMadera
+                                edificioElegido.subirNivel()
+                            else:
+                                print("no posee suficiente oro o madera")
+                        else:
+                            print("edificio mejorado al maximo")
+
+                    elif opc == 0:
+                        jugador.eliminarEdificio(edificioElegido)
+
+            elif accion == 3:
+                for i, unidad in enumerate(unidades):
+                    print(f"{i+1}. {unidad} precio: {unidad.precioCompra}")
+                seleccion = int(input("Que unidad desea comprar "))
+                while seleccion < 1 or seleccion > len(unidades):
+                    seleccion = int(input("opcion invalida, ingrese otra: "))
+                miUnidad = unidades[seleccion-1]
+                jugador.comprarUnidad(miUnidad)
+
+            elif accion == 4:
+                unidadElegida = jugador.seleccionarUnidad()
+                if unidadElegida == 0:
+                    print("No tienes unidades disponibles para seleccionar.")
+                else:
+                    print("0. elimiar unidad")
+                    print("1. ver estadisticas")
+                    if unidadElegida.tipoUnidad == "Recolector":
+                        print("2. recolectar")
+                        opc = int(input("ingrese una opcion "))
+                        while opc < 0 or opc > 2:
+                            opc = int(input("Opción invalida, ingrese otra: "))
+                        if opc == 1:
+                            print(unidadElegida)
+                        elif opc == 2:
+                            unidadElegida.recolectar()
+                        elif opc == 0:
+                            jugador.eliminarUnidad(unidadElegida)    
+                    else:
+                        print("2. atacar")
+                        print("3. comprar item")
+                        print("4. vender item")
+                        opc = int(input("ingrese una opcion "))
+                        while opc < 0 or opc > 4:
+                            opc = int(input("Opción invalida, ingrese otra: "))
+                        if opc == 1:
+                            print(unidadElegida)
+                        elif opc == 2:
+                            unidadElegida.atacar()
+                        elif opc == 3:
+                            
+                            if len(unidadElegida.mochila) >= 6:
+                                print("no puede comprar mas de 6 items por unidad")
+                            else:
+                                for i, item in enumerate(items):
+                                    print(f"{i+1}. {item}, precio: {item.precioCompra}")
+                                seleccion = int(input("que item desea comprar "))
+                                while seleccion < 1 or seleccion > len(items):
+                                    seleccion = int(input("opcion invalida, ingrese otra: "))
+                                miItem = items[seleccion-1]
+                                if jugador.oro >= miItem.precioCompra:
+                                    unidadElegida.comprarItem(miItem)
+                                    jugador.oro = jugador.oro - miItem.precioCompra                                    
+                                else:
+                                    print("no posee suficiente oro para comprar el item")
+                        
+                        elif opc == 4:
+                            if len(unidadElegida.mochila) == 0:
+                                print("esta unidad no posee items en su mochila")
+                            else:
+                                for i, item in enumerate(unidadElegida.mochila):
+                                    print(f"{i+1}. {item}, precio: {item.precioVenta}")
+                                seleccion = int(input("que item desea vender "))
+                                while seleccion < 1 or seleccion > len(unidadElegida.mochila):
+                                    seleccion = int(input("opcion invalida, ingrese otra: "))
+                                miItem = unidadElegida.mochila[seleccion-1]
+                                unidadElegida.venderItem(miItem)
+                                jugador.oro = jugador.oro + miItem.precioVenta 
+                        elif opc == 0:
+                            jugador.eliminarUnidad(unidadElegida)
+
+            elif accion == 5:
+                print(jugador)
+
+            elif accion == 0:
+                jugador.perder()
+elif opc == 0:
+    print("adios")

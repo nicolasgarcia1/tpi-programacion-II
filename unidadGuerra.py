@@ -2,42 +2,61 @@ from unidad import Unidad
 from item import Item
 
 class UnidadGuerra(Unidad):
-    def __init__(self, tipoUnidad:str, precioCompraOro:int, nivel:int, vida:int, tipoDaño:int, daño:int, tipoDefensa:str, defensa:int):
-        super().__init__(tipoUnidad, precioCompraOro, nivel, vida, tipoDaño, daño)
+    def __init__(self, tipoUnidad:str, tipoDaño:str, daño:int, tipoDefensa:str, defensa:int, precioCompra:int, nivel:int=1, vida:int=500, xp:int=0):
+        super().__init__(tipoUnidad, precioCompra, nivel, vida, xp)
+        self.__tipoDaño = tipoDaño
+        self.__daño = daño
         self.__tipoDefensa = tipoDefensa
         self.__defensa = defensa
         self.__mochila = []
     
-    #SETTERS Y GETTERS
+    # GETTERS Y SETTERS
+    @property
+    def tipoDaño(self):
+        return self.__tipoDaño
+    
+    @property
+    def daño(self):
+        return self.__daño
+    
+    @daño.setter
+    def daño(self, newDaño):
+        self.__daño = newDaño
+    
     @property
     def tipoDefensa(self):
         return self.__tipoDefensa
 
     @property
-    def Defensa(self):
+    def defensa(self):
         return self.__defensa
-
+    
+    @defensa.setter
+    def defensa(self, newDefensa):
+        self.__defensa = newDefensa
+    
     @property
     def mochila(self):
         return self.__mochila
-
-    @mochila.setter
-    def mochila(self,nueva_mochila:list):
-        self.__mochila = nueva_mochila
-        
-
-    #METODOS
-    def atacar():
-        pass #calcular ataque
     
-    def comprar_item(self, item:Item) -> None:
-        if len(self.__mochila) >= 6 or item in self.__mochila:
-            raise Exception # ?? ver como hacer
-        else:
-            self.__mochila.append(item)
+    # METODOS
+    def atacar():
+        # selecciona un jugador, selecciona una de sus unidades (puede ser edificio o unidad), se calculan los daños y se actualizan los atributos de los jugadores
+        # /se podria hacer un bucle donde las unidades se atacan mutuamente por turnos hasta la muerte de alguno de los dos
+        # invocar la/s funcion/es morir de la/s unidad/es correspondiente/s
+        pass
+    
+    def comprarItem(self, miItem:Item) -> None:
+        self.vida = self.vida + miItem.vida
+        self.daño = self.daño + miItem.daño
+        self.defensa = self.defensa + miItem.defensa
+        self.__mochila.append(miItem)
 
-    def vender_item(self, item:Item) -> None:
-        if len(self.__mochila) == 0 or item not in self.__mochila:
-            raise Exception 
-        else:
-            self.__mochila.remove(item)
+    def venderItem(self, miItem:Item) -> None:
+        self.vida = self.vida - miItem.vida
+        self.daño = self.daño - miItem.daño
+        self.defensa = self.defensa - miItem.defensa
+        self.__mochila.remove(miItem)
+        
+    def __str__(self):
+        return f"Unidad de Guerra - nombre: {self.tipoUnidad}, Vida: {self.vida}, Ataque: {self.tipoDaño} ({self.daño}), Defensa: {self.tipoDefensa} ({self.defensa}), Nivel: {self.nivel}"

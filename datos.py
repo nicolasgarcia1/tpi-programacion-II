@@ -1,132 +1,58 @@
+from partida import Partida
 from unidadGuerra import UnidadGuerra
 from unidadRecoleccion import UnidadRecoleccion
 from item import Item
 
-memory_card = {
-    'ashenvale': {
-        'recursos': {
-            'cantidadMadera': 2000,
-            'cantidadOro': 2000,
-        },
-        'jugadores': [
-            {
-                'nombreJugador': 'Macho',
-                'color': 'rojo',
-                'raza': 'humano',
-                'oro': 200,
-                'madera': 200,
-            },
-            {
-                'nombreJugador': 'Ramon',
-                'color': 'azul',
-                'raza': 'orco',
-                'oro': 200,
-                'madera': 200,
-            },
-        ],
-        'edificios': {
-            'precioCompraMadera': 50,
-            'vida': 3000,
-            'poblacion': 2,
-        },
-    },
-    'stranglethorn vale': {
-        'recursos': {
-            'cantidadMadera': 1500,
-            'cantidadOro': 1500,
-        },
-        'jugadores': [
-            {
-                'nombreJugador': 'EL MAS CAPO',
-                'color': 'rojo',
-                'raza': 'humano',
-                'oro': 200,
-                'madera': 200,
-            },
-            {
-                'nombreJugador': 'Pedro',
-                'color': 'azul',
-                'raza': 'orco',
-                'oro': 200,
-                'madera': 200,
-            },
-            {
-                'nombreJugador': 'EL PRO',
-                'color': 'verde',
-                'raza': 'elfo',
-                'oro': 200,
-                'madera': 200,
-            },
-        ],
-        'edificios': {
-            'precioCompraMadera': 75,
-            'vida': 3000,
-            'poblacion': 2,
-        },
-    },
-    'lordaeron': {
-        'recursos': {
-            'cantidadMadera': 5000,
-            'cantidadOro': 5000,
-        },
-        'jugadores': [
-            {
-                'nombreJugador': 'yo',
-                'color': 'rojo',
-                'raza': 'humano',
-                'oro': 500,
-                'madera': 500,
-            },
-            {
-                'nombreJugador': 'Paul',
-                'color': 'azul',
-                'raza': 'orco',
-                'oro': 500,
-                'madera': 500,
-            },
-            {
-                'nombreJugador': 'god',
-                'color': 'verde',
-                'raza': 'elfo',
-                'oro': 500,
-                'madera': 500,
-            },
-        ],
-        'edificios': {
-            'precioCompraMadera': 50,
-            'vida': 2000,
-            'poblacion': 1,
-        },
-    },
-}
+partidas = [
+    Partida("Ashen Vale",         2000,  2000,  2),
+    Partida("Stranglethorn Vale", 3000,  3000,  3),
+    Partida("Lordearon",          4000,  4000,  4),
+    Partida("Durotar",            5000,  5000,  5),
+    Partida("Tirisfal Glades",    6000,  6000,  6),
+    Partida("Duskwood",           7000,  7000,  7),
+    Partida("Elwynn Forest",      8000,  8000,  8),
+    Partida("Westfall",           9000,  9000,  9),
+    Partida("Redridge Mountains", 10000, 10000, 10),
+    Partida("Burning Steppes",    11000, 11000, 11),
+    Partida("Deadwind Pass",      12000, 12000, 12),
+    Partida("Stormwind City",     13000, 13000, 13)
+]
 
-Unidades = [UnidadGuerra(tipoUnidad="Soldado Ligero", tipoDaño="Normal", tipoDefensa="Sin Armadura"),
-            UnidadGuerra(tipoUnidad="Caballero de Plata", tipoDaño="Normal", tipoDefensa="Armadura Ligera"),
-            UnidadGuerra(tipoUnidad="Vanguardia de Hierro", tipoDaño="Normal", tipoDefensa="Armadura Media"),
-            UnidadGuerra(tipoUnidad="Coloso de Acero", tipoDaño="Normal", tipoDefensa="Armadura Pesada"),
-            UnidadGuerra(tipoUnidad="Asesino Furtivo", tipoDaño="Perforante", tipoDefensa="Sin Armadura"),
-            UnidadGuerra(tipoUnidad="Lancero Veloz", tipoDaño="Perforante", tipoDefensa="Armadura Ligera"),
-            UnidadGuerra(tipoUnidad="Táctico Blindado", tipoDaño="Perforante", tipoDefensa="Armadura Media"),
-            UnidadGuerra(tipoUnidad="Demoledor Implacable", tipoDaño="Perforante", tipoDefensa="Armadura Pesada"),
-            UnidadGuerra(tipoUnidad="Bombardero Escarlata", tipoDaño="Asedio", tipoDefensa="Sin Armadura"),
-            UnidadGuerra(tipoUnidad="Catapulta de Bronce", tipoDaño="Asedio", tipoDefensa="Armadura Ligera"),
-            UnidadGuerra(tipoUnidad="Balista de Plomo", tipoDaño="Asedio", tipoDefensa="Armadura Media"),
-            UnidadGuerra(tipoUnidad="Mortero de Ébano", tipoDaño="Asedio", tipoDefensa="Armadura Pesada"),
-            UnidadGuerra(tipoUnidad="Hechicero Arcano", tipoDaño="Magico", tipoDefensa="Sin Armadura"),
-            UnidadGuerra(tipoUnidad="Encantador Élfico", tipoDaño="Magico", tipoDefensa="Armadura Ligera"),
-            UnidadGuerra(tipoUnidad="Invocador Celestial", tipoDaño="Magico", tipoDefensa="Armadura Media"),
-            UnidadGuerra(tipoUnidad="Archimago Dorado", tipoDaño="Magico", tipoDefensa="Armadura Pesada"),
-            UnidadRecoleccion(tipoUnidad="Recolector")]
+unidades = [
+    UnidadGuerra("Soldado Ligero",       "Normal",     100, "Sin Armadura",    100, 200),
+    UnidadGuerra("Caballero de Plata",   "Normal",     100, "Armadura Ligera", 125, 225),
+    UnidadGuerra("Vanguardia de Hierro", "Normal",     100, "Armadura Media",  150, 250),
+    UnidadGuerra("Coloso de Acero",      "Normal",     100, "Armadura Pesada", 175, 275),
+    UnidadGuerra("Asesino Furtivo",      "Perforante", 125, "Sin Armadura",    100, 225),
+    UnidadGuerra("Lancero Veloz",        "Perforante", 125, "Armadura Ligera", 125, 250),
+    UnidadGuerra("Táctico Blindado",     "Perforante", 125, "Armadura Media",  150, 275),
+    UnidadGuerra("Demoledor Implacable", "Perforante", 125, "Armadura Pesada", 175, 300),
+    UnidadGuerra("Bombardero Escarlata", "Asedio",     150, "Sin Armadura",    100, 250),
+    UnidadGuerra("Catapulta de Bronce",  "Asedio",     150, "Armadura Ligera", 125, 275),
+    UnidadGuerra("Balista de Plomo",     "Asedio",     150, "Armadura Media",  150, 300),
+    UnidadGuerra("Mortero de Ébano",     "Asedio",     150, "Armadura Pesada", 175, 325),
+    UnidadGuerra("Hechicero Arcano",     "Magico",     175, "Sin Armadura",    100, 275),
+    UnidadGuerra("Encantador Élfico",    "Magico",     175, "Armadura Ligera", 125, 300),
+    UnidadGuerra("Invocador Celestial",  "Magico",     175, "Armadura Media",  150, 325),
+    UnidadGuerra("Archimago Dorado",     "Magico",     175, "Armadura Pesada", 175, 350),
+    UnidadRecoleccion("Recolector",                                                 100)
+]
 
-Items = [Item(nombre="Armadura del Guerrero", vida=20, daño=20, defensa=20),
-         Item(nombre="Coraza del Campeón", vida=20, daño=20, defensa=20),
-         Item(nombre="Túnica del Gladiador", vida=20, daño=20, defensa=20),
-         Item(nombre="Espada del Berserker", vida=30, daño=30),
-         Item(nombre="Lanza del Asesino", vida=30, daño=30),
-         Item(nombre="Maza del Destructor", vida=30, daño=30),
-         Item(nombre="Escudo del Guardián", vida=30, defensa=30),
-         Item(nombre="Muro del Protector", vida=30, defensa=30),
-         Item(nombre="Barrera del Defensor", vida=30, defensa=30),
-         Item(nombre="Hacha del Conquistador", daño=30, defensa=30),
-         Item(nombre="Martillo del Titán", daño=30, defensa=30),
-         Item(nombre="Espadón del Dominador", daño=30, defensa=30)]
+items = [
+    Item("Armadura del Guerrero",  350, 20, 20, 20),
+    Item("Coraza del Campeón",     350, 20, 20, 20),
+    Item("Túnica del Gladiador",   350, 20, 20, 20),
+    Item("Espada del Berserker",   350, 30, 30, 0),
+    Item("Lanza del Asesino",      350, 30, 30, 0),
+    Item("Maza del Destructor",    350, 30, 30, 0),
+    Item("Escudo del Guardián",    350, 30, 0,  30),
+    Item("Muro del Protector",     350, 30, 0,  30),
+    Item("Barrera del Defensor",   350, 30, 0,  30),
+    Item("Hacha del Conquistador", 350, 0,  30, 30),
+    Item("Martillo del Titán",     350, 0,  30, 30),
+    Item("Espadón del Dominador",  350, 0,  30, 30)
+]
+
+colores = ["Negro","Marron","Rojo","Naranja","Amarillo","Verde","Lima","Azul","Celeste","Violeta","Rosa","Blanco"]
+
+razas = ["Humanos","Orcos","Muertos Vivientes","Elfos Oscuros"]

@@ -1,20 +1,25 @@
 from unidad import Unidad
 
 class UnidadRecoleccion(Unidad):
-    def __init__(self, tipoUnidad:str, precioCompraOro:int,xp:int, nivel:int, vida:int, tipoDaño:int, daño:int, velocidadRecoleccion:int):
-        super().__init__(tipoUnidad, precioCompraOro,xp , nivel, vida, tipoDaño, daño)
-        self.__velocidadRecoleccion = velocidadRecoleccion
-    
-    #SETTERS Y GETTERS
+    def __init__(self, tipoUnidad:str, precioCompra:int, nivel:int=1, vida:int=100, xp:int=0, velocidadRecoleccion:int=250):
+        super().__init__(tipoUnidad, precioCompra, nivel, vida, xp)
+        self.__velocidadRecoleccion = velocidadRecoleccion * self.nivel
+        
+    # GETTERS Y SETTERS  
     @property
     def velocidadRecoleccion(self):
         return self.__velocidadRecoleccion
-
+    
     @velocidadRecoleccion.setter
     def velocidadRecoleccion(self, newVelocidadRecoleccion):
         self.__velocidadRecoleccion = newVelocidadRecoleccion
     
-    #METODOS
+    # METODOS
     def recolectar():
-        
-        pass #calcular recoleccion
+        pass 
+        # al ejecutar este metodo se le pregunta al jugador si quiere oro o madera y resta del atributo de partida 
+        # la cantida de madera u oro igual al valor de velocidad de recoleccion de la unidad elegida, por cada vez que un recolector recolecta gana 50 xp
+
+    def __str__(self):
+        return f"Unidad de Recolección - Nombre: {self.tipoUnidad}, Vida: {self.vida}, velocidad de recoleccion: {self.velocidadRecoleccion}, Nivel: {self.nivel}"
+    

@@ -1,18 +1,17 @@
+from jugador import Jugador
+
 class Partida():
-    def __init__(self, mapa:str, cantidadMadera:int, 
-                 cantidadOro:int, cantidadJugadores:int) -> None:
+    def __init__(self, mapa:str, cantidadMadera:int, cantidadOro:int, cantidadJugadores:int) -> None:
         self.__mapa = mapa
         self.__cantidadMadera = cantidadMadera
         self.__cantidadOro = cantidadOro
         self.__cantidadJugadores = cantidadJugadores
+        self.__jugadores = []
 
+    # GETTERS Y SETTERS
     @property
     def mapa(self) -> str:
         return self.__mapa
-    
-    @mapa.setter
-    def mapa(self, newMapa:str) -> None:
-        self.__mapa = newMapa
 
     @property
     def cantidadMadera(self) -> int:
@@ -35,13 +34,22 @@ class Partida():
         return self.__cantidadJugadores
     
     @cantidadJugadores.setter
-    def cantidadJugadores(self, newCantidadJugadores:int) -> None:
-        self.__cantidadJugadores = newCantidadJugadores
+    def cantidadJugadores(self, NewCantidadJugadores):
+        self.__cantidadJugadores = NewCantidadJugadores
 
-
-    def empezarPartida(self) -> None:
-        pass
-
-
+    @property
+    def jugadores(self):
+        return self.__jugadores
+    
+    @jugadores.setter
+    def jugadores(self, jugador:Jugador):
+        self.__jugadores.append(jugador)
+    
+    # METODOS
     def terminarPartida(self) -> None:
         pass
+        # se llama desde el metodo perder de jugador y valida si la cantidad de jugadores en la lista de jugadores 
+        # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
+
+    def __str__(self):
+        return (f"Mapa: {self.mapa}, Cantidad de Madera: {self.cantidadMadera}, Cantidad de Oro: {self.cantidadOro}, Cantidad de Jugadores: {self.cantidadJugadores}")

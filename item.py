@@ -1,13 +1,13 @@
 class Item():
-    def __init__(self, nombre:str, precioCompra:int, precioVenta:int, 
-                 daño:int, vida:int, defensa:int) -> None:
+    def __init__(self, nombre:str, precioCompra:int, vida:int, daño:int, defensa:int) -> None:
         self.__nombre = nombre
         self.__precioCompra = precioCompra
-        self.__precioVenta = precioVenta
-        self.__daño = daño
+        self.__precioVenta = precioCompra - 250
         self.__vida = vida
+        self.__daño = daño
         self.__defensa = defensa
 
+    # GETTERS Y SETTERS
     @property
     def nombre(self):
         return self.__nombre
@@ -32,18 +32,6 @@ class Item():
     def defensa(self):
         return self.__defensa
 
+    # METODOS
     def __str__(self) -> str:
-        attributos = [
-            f"Nombre: {self.nombre}",
-            f"Precio de Compra: {self.precioCompra}",
-            f"Precio de Venta: {self.precioVenta}"
-        ]
-        if self.daño != 0:
-            attributos.append(f"Daño: {self.daño}")
-        if self.vida != 0:
-            attributos.append(f"Vida: {self.vida}")
-        if self.defensa != 0:
-            attributos.append(f"defensa: {self.defensa}")
-        if self.mana != 0:
-            attributos.append(f"Mana: {self.mana}")
-        return ', '.join(attributos)
+        return f"Nombre: {self.nombre}, Vida: {self.vida}, daño: {self.daño}, defensa: {self.defensa}"
