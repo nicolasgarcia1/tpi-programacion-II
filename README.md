@@ -21,5 +21,5 @@ Finaliza la ejecución del programa. Los datos no serán guardados.
 ## Desarrolladores
 
 - **Facundo Solari** - [@facundosolari](https://github.com/facundosolari)
-- **Francisco Rossi** - [@?](https://)
+- **Francisco Rossi** - [@rossifrancisco](https://github.com/rossifrancisco)
 - **Nicolás García** - [@nicolasgarcia1](https://github.com/nicolasgarcia1)

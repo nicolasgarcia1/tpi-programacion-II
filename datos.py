@@ -4,18 +4,16 @@ from unidadRecoleccion import UnidadRecoleccion
 from item import Item
 
 partidas = [
-    Partida("Ashen Vale",         2000,  2000,  2),
-    Partida("Stranglethorn Vale", 3000,  3000,  3),
-    Partida("Lordearon",          4000,  4000,  4),
-    Partida("Durotar",            5000,  5000,  5),
-    Partida("Tirisfal Glades",    6000,  6000,  6),
-    Partida("Duskwood",           7000,  7000,  7),
-    Partida("Elwynn Forest",      8000,  8000,  8),
-    Partida("Westfall",           9000,  9000,  9),
-    Partida("Redridge Mountains", 10000, 10000, 10),
-    Partida("Burning Steppes",    11000, 11000, 11),
-    Partida("Deadwind Pass",      12000, 12000, 12),
-    Partida("Stormwind City",     13000, 13000, 13)
+    Partida("Deadwind Pass",      1000,  1000),
+    Partida("Ashen Vale",         2000,  2000),
+    Partida("Stranglethorn Vale", 3000,  3000),
+    Partida("Lordearon",          4000,  4000),
+    Partida("Durotar",            5000,  5000),
+    Partida("Tirisfal Glades",    6000,  6000),
+    Partida("Duskwood",           7000,  7000),
+    Partida("Elwynn Forest",      8000,  8000),
+    Partida("Westfall",           9000,  9000),
+    Partida("Redridge Mountains", 10000, 10000),
 ]
 
 unidades = [
@@ -53,6 +51,6 @@ items = [
     Item("Espadón del Dominador",  350, 0,  30, 30)
 ]
 
-colores = ["Negro","Marron","Rojo","Naranja","Amarillo","Verde","Lima","Azul","Celeste","Violeta","Rosa","Blanco"]
+colores = ["Gris","Marron","Rojo","Naranja","Amarillo","Verde","Lima","Azul","Celeste","Violeta","Magenta","Rosa"]
 
 razas = ["Humanos","Orcos","Muertos Vivientes","Elfos Oscuros"]

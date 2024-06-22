@@ -29,7 +29,7 @@ class Edificio:
     def nivel(self, newNivel: int) -> None:
         self.__nivel = newNivel
 
-    #CALCULADOS
+    # CALCULADOS
     @property
     def unidadesPosibles(self):
         if self.nivel == 1:
@@ -57,16 +57,16 @@ class Edificio:
         elif self.nivel == 3:
             return "MAX"
 
-    #METODOS
+    # METODOS
     def subirNivel(self) -> None:
         if self.nivel == 1:
             self.nivel = 2
             self.vida = 1500
-            self.nombre = "Hogar"
+            self.tipoEdificio = "Hogar"
         elif self.nivel == 2:
             self.nivel = 3
             self.vida = 3000
-            self.nombre = "Mansion"
+            self.tipoEdificio = "Mansion"
 
     def __str__(self) -> str:
         return f"Nombre: {self.tipoEdificio}, Vida: {self.vida}, Nivel: {self.nivel}, (+{self.unidadesPosibles} Unidades), mejorar: oro({self.precioMejoraOro}) madera({self.precioMejoraMadera}),"

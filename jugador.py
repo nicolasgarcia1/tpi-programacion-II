@@ -1,11 +1,12 @@
 from unidad import Unidad
 from edificio import Edificio
+from colores import *
 
 class Jugador():
     __listaNombres = []
     __listaColores = []
 
-    def __init__(self, nombre:str, color:str, raza:str, oro:int=5000, madera:int=5000) -> None:
+    def __init__(self, nombre:str, color:str, raza:str, oro:int=500, madera:int=500) -> None:
         self.__nombre = Jugador.__validarNombre(nombre)
         self.__color = Jugador.__validarColor(color)
         self.__raza = raza
@@ -66,67 +67,39 @@ class Jugador():
 
     @property
     def poblacionActual(self):
-        return len(self.__unidades)
+        return len(self.unidades)
+    
+    @property
+    def cantEdificios(self):
+        return len(self.edificios)
 
     # METODOS
     @classmethod
     def __validarNombre(cls, nombre):
         if nombre in Jugador.__listaNombres:
-            raise Exception("Error: nombre ya utilizado")
+            raise Exception(f"{error}Error: Nombre ya Utilizado{reset}")
         Jugador.__listaNombres.append(nombre)
         return nombre
 
     @classmethod
     def __validarColor(cls, color):
         if color in Jugador.__listaColores:
-            raise Exception("Error: color ya utilizado")
+            raise Exception(f"{error}Error: Color ya Utilizado{reset}")
         Jugador.__listaColores.append(color)
         return color
 
-    def comprarEdificio(self, edificio:Edificio):
-        if self.madera >= 500:
-            self.__edificios.append(edificio)
-            self.madera = self.madera - 500
-        else:
-            print("no posee suficiente madera para realizar la compra")
-
-    def seleccionarEdificio(self):
-        if len(self.edificios) == 0:
-            return 0
-        else:
-            for i, edificio in enumerate(self.edificios):
-                print(f"{i+1}. {edificio}")
-            seleccion = int(input("Seleccione una edificio "))
-            while seleccion < 1 or seleccion > len(self.edificios):
-                seleccion = int(input("opcion invalida, ingrese otra: "))
-            edificioElegido = self.edificios[seleccion-1]
-            return edificioElegido
+    def comprarEdificio(self):
+        edificio = Edificio()
+        self.__edificios.append(edificio)
+        self.madera = self.madera - 500
         
     def eliminarEdificio(self, edificioElegido:Edificio):
         self.__edificios.remove(edificioElegido)
 
     def comprarUnidad(self, miUnidad:Unidad):
-        if self.poblacionActual < self.limitePoblacion:
-            if self.oro >= miUnidad.precioCompra:
-                self.__unidades.append(miUnidad)
-                newOro = self.oro - miUnidad.precioCompra
-                self.oro = newOro
-            else:
-                print("No tienes suficiente oro para comprar esta unidad")
-        else:
-            print("no puede comprar mas unidades antes debe ampliar su reino")
-
-    def seleccionarUnidad(self):
-        if len(self.unidades) == 0:
-            return 0
-        else:
-            for i, unidad in enumerate(self.unidades):
-                print(f"{i+1}. {unidad}")
-            seleccion = int(input("Seleccione una unidad "))
-            while seleccion < 1 or seleccion > len(self.unidades):
-                seleccion = int(input("opcion invalida, ingrese otra: "))
-            unidadElegida = self.unidades[seleccion-1]
-            return unidadElegida
+        self.__unidades.append(miUnidad)
+        newOro = self.oro - miUnidad.precioCompra
+        self.oro = newOro
 
     def eliminarUnidad(self, unidadElegida):
         self.__unidades.remove(unidadElegida)
@@ -138,11 +111,4 @@ class Jugador():
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
 
     def __str__(self):
-        return (f"Nombre: {self.nombre}\n"
-                f"Color: {self.color}\n"
-                f"Raza: {self.raza}\n"
-                f"Oro: {self.oro}\n"
-                f"Madera: {self.madera}\n"
-                f"Edificios: {len(self.edificios)}\n"
-                f"Limite de Poblacion: {self.limitePoblacion}\n"
-                f"Poblacion Actual: {len(self.unidades)}")
+        return f"{self.nombre}: Oro({self.oro}), Madera({self.madera}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)})"

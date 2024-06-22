@@ -1,11 +1,10 @@
 from jugador import Jugador
 
 class Partida():
-    def __init__(self, mapa:str, cantidadMadera:int, cantidadOro:int, cantidadJugadores:int) -> None:
+    def __init__(self, mapa:str, cantidadMadera:int, cantidadOro:int) -> None:
         self.__mapa = mapa
         self.__cantidadMadera = cantidadMadera
         self.__cantidadOro = cantidadOro
-        self.__cantidadJugadores = cantidadJugadores
         self.__jugadores = []
 
     # GETTERS Y SETTERS
@@ -30,20 +29,17 @@ class Partida():
         self.__cantidadOro = newCantidadOro
 
     @property
-    def cantidadJugadores(self) -> int:
-        return self.__cantidadJugadores
-    
-    @cantidadJugadores.setter
-    def cantidadJugadores(self, NewCantidadJugadores):
-        self.__cantidadJugadores = NewCantidadJugadores
-
-    @property
     def jugadores(self):
         return self.__jugadores
     
     @jugadores.setter
     def jugadores(self, jugador:Jugador):
         self.__jugadores.append(jugador)
+    
+    # CALCULADOS
+    @property
+    def cantidadJugadores(self) -> int:
+        return len(self.__jugadores)
     
     # METODOS
     def terminarPartida(self) -> None:
@@ -52,4 +48,4 @@ class Partida():
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
 
     def __str__(self):
-        return (f"Mapa: {self.mapa}, Cantidad de Madera: {self.cantidadMadera}, Cantidad de Oro: {self.cantidadOro}, Cantidad de Jugadores: {self.cantidadJugadores}")
+        return (f"Mapa: {self.mapa}, Cantidad de Madera: {self.cantidadMadera}, Cantidad de Oro: {self.cantidadOro}")
