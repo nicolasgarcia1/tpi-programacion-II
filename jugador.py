@@ -1,19 +1,19 @@
 from unidad import Unidad
+from unidadRecoleccion import UnidadRecoleccion
 from edificio import Edificio
 from colores import *
-
 class Jugador():
     __listaNombres = []
     __listaColores = []
 
-    def __init__(self, nombre:str, color:str, raza:str, oro:int=500, madera:int=500) -> None:
+    def __init__(self, nombre:str, color:str, raza:str, oro:int=5000, madera:int=5000) -> None:
         self.__nombre = Jugador.__validarNombre(nombre)
         self.__color = Jugador.__validarColor(color)
         self.__raza = raza
         self.__oro = oro
         self.__madera = madera
-        self.__edificios = []
-        self.__unidades = []
+        self.__edificios = [Edificio()]
+        self.__unidades = [UnidadRecoleccion()]
 
     # GETTERS Y SETTERS
     @property
@@ -103,7 +103,7 @@ class Jugador():
 
     def eliminarUnidad(self, unidadElegida):
         self.__unidades.remove(unidadElegida)
-
+       
     def perder(self):
         pass
         # cuando una unidad muera verificar si fue la ultima del jugador en caso positivo remover al jugador de la lista de jugadores 
@@ -111,4 +111,4 @@ class Jugador():
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
 
     def __str__(self):
-        return f"{self.nombre}: Oro({self.oro}), Madera({self.madera}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)})"
+        return f"{self.nombre}: Oro({neutro}{self.oro}{cambiarColor(self.color)}), Madera({neutro}{self.madera}{cambiarColor(self.color)}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)})"

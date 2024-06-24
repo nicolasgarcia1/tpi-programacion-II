@@ -1,5 +1,6 @@
 from unidad import Unidad
 from item import Item
+from colores import neutro, reset
 
 class UnidadGuerra(Unidad):
     def __init__(self, tipoUnidad:str, tipoDaño:str, daño:int, tipoDefensa:str, defensa:int, precioCompra:int, nivel:int=1, vida:int=500, xp:int=0):
@@ -59,4 +60,4 @@ class UnidadGuerra(Unidad):
         self.__mochila.remove(miItem)
         
     def __str__(self):
-        return f"Unidad de Guerra - nombre: {self.tipoUnidad}, Vida: {self.vida}, Ataque: {self.tipoDaño} ({self.daño}), Defensa: {self.tipoDefensa} ({self.defensa}), Nivel: {self.nivel}"
+        return f"{self.tipoUnidad} - Vida: {self.vida}, Ataque: {self.tipoDaño} ({self.daño}), Defensa: {self.tipoDefensa} ({self.defensa}), Nivel: {self.nivel}, Precio: {neutro}{self.precioCompra}{reset}"

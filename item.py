@@ -1,8 +1,8 @@
+from colores import neutro, reset
 class Item():
     def __init__(self, nombre:str, precioCompra:int, vida:int, daño:int, defensa:int) -> None:
         self.__nombre = nombre
         self.__precioCompra = precioCompra
-        self.__precioVenta = precioCompra - 250
         self.__vida = vida
         self.__daño = daño
         self.__defensa = defensa
@@ -18,7 +18,7 @@ class Item():
 
     @property
     def precioVenta(self):
-        return self.__precioVenta
+        return self.__precioCompra - 250
 
     @property
     def daño(self):
@@ -34,4 +34,4 @@ class Item():
 
     # METODOS
     def __str__(self) -> str:
-        return f"Nombre: {self.nombre}, Vida: {self.vida}, daño: {self.daño}, defensa: {self.defensa}"
+        return f"{self.nombre} - Vida: {self.vida}, Daño: {self.daño}, Defensa: {self.defensa}, Precio Compra/Venta: {neutro}{self.precioCompra}{reset}/{neutro}{self.precioVenta}{reset}"

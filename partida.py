@@ -1,4 +1,5 @@
 from jugador import Jugador
+from colores import neutro, reset
 
 class Partida():
     def __init__(self, mapa:str, cantidadMadera:int, cantidadOro:int) -> None:
@@ -48,4 +49,4 @@ class Partida():
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
 
     def __str__(self):
-        return (f"Mapa: {self.mapa}, Cantidad de Madera: {self.cantidadMadera}, Cantidad de Oro: {self.cantidadOro}")
+        return (f"Mapa: {self.mapa}, Oro: {neutro}{self.cantidadOro}{reset} , Madera: {neutro}{self.cantidadMadera}{reset}")

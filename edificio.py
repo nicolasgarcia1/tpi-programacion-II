@@ -1,3 +1,5 @@
+from colores import neutro, reset
+
 class Edificio:
     def __init__(self, tipoEdificio:str="Choza", vida: int = 1000, nivel: int = 1) -> None:
         self.__tipoEdificio = tipoEdificio
@@ -69,4 +71,4 @@ class Edificio:
             self.tipoEdificio = "Mansion"
 
     def __str__(self) -> str:
-        return f"Nombre: {self.tipoEdificio}, Vida: {self.vida}, Nivel: {self.nivel}, (+{self.unidadesPosibles} Unidades), mejorar: oro({self.precioMejoraOro}) madera({self.precioMejoraMadera}),"
+        return f"{self.tipoEdificio} - Vida: {self.vida}, Nivel: {self.nivel}, (+{self.unidadesPosibles} Unidades), mejorar: oro({neutro}{self.precioMejoraOro}{reset}) madera({neutro}{self.precioMejoraMadera}{reset})"

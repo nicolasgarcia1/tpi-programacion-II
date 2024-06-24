@@ -33,7 +33,7 @@ unidades = [
     UnidadGuerra("Encantador Élfico",    "Magico",     175, "Armadura Ligera", 125, 300),
     UnidadGuerra("Invocador Celestial",  "Magico",     175, "Armadura Media",  150, 325),
     UnidadGuerra("Archimago Dorado",     "Magico",     175, "Armadura Pesada", 175, 350),
-    UnidadRecoleccion("Recolector",                                                 100)
+    UnidadRecoleccion()
 ]
 
 items = [

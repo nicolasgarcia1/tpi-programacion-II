@@ -1,240 +1,228 @@
 from jugador import Jugador
 from datos import *
 from colores import *
+import time
+
+def seleccionar(lista:list, color:str=None):
+    for i, elemento in enumerate(lista):
+        if elemento in colores:
+            print(f"{i+1}. {cambiarColor(elemento)}{elemento}{reset}")
+        else:
+            print(f"{i+1}. {elemento}")
+
+    if color:
+        seleccion = int(input(f"{cambiarColor(color)}Ingrese una Opcion{reset} "))
+    else:
+        seleccion = int(input(f"{neutro}ingrese una Opcion{reset} "))
+    
+    while seleccion < 1 or seleccion > len(lista):
+        seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
+    return seleccion
+
+def siono(respuesta):
+    respuesta = respuesta.lower()
+    while respuesta != "y" and respuesta != "n":
+        respuesta = input(f"{error}Opcion invalida. Ingrese otra{reset} ")
+        respuesta = respuesta.lower()
+
+    if respuesta == "y":
+        return True
+    elif respuesta == "n":
+        return False
+    
+def limpiarPantalla():
+    print("\033c", end="")
+
+def printar(mensaje:str):
+    limpiarPantalla()
+    print(mensaje)
+    time.sleep(1)
 
 
-print("Menu Principal")
-print("1. Jugar")
-print("2. Cargar Partida")
-print("0. Salir")
-opc = int(input("Ingrese una Opcion "))
-while opc < 0 or opc > 2:
-    opc = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
+salir = False
+while not salir:
+    limpiarPantalla()
+    print("Menu Principal")
+    menu = ["Jugar",
+            "Cargar Partida",
+            "Salir"]
+    opc = seleccionar(menu)
 
-salir = True
-miPartida = None
-while salir:
-    if opc == 0:
-        salir = False
-        print(f"{exito}HASTA LA PROXIMA{reset}")
+    if opc == 1 or opc == 2:
+        if opc == 1:
+            limpiarPantalla()
+            miPartida = partidas[seleccionar(partidas)-1]
 
-    elif opc == 1:
-        if not miPartida:
-            for i, partida in enumerate(partidas):
-                print(f"{i+1}. {partida}")
-            seleccion = int(input("Ingrese una Partida "))
-            while seleccion < 1 or seleccion > len(partidas):
-                seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-            miPartida = partidas[seleccion-1]
-
-            salida = False
-            while not salida:
-                nombre = input("Ingrese su Nombre ")
+            empezar = False
+            while not empezar:
+                limpiarPantalla()
+                nombre = input(f"{neutro}Jugaddor {miPartida.cantidadJugadores + 1} Ingrese su Nombre{reset} ")
                 nombre = nombre.upper()
 
-                for j, color in enumerate(colores):
-                    print(f"{j + 1}. {cambiarColor(color)}{color}{reset}")
-                seleccion = int(input("Ingrese su Color "))
-                while seleccion < 1 or seleccion > len(colores):
-                    seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                color = colores[seleccion-1]
+                limpiarPantalla()
+                color = colores[seleccionar(colores)-1]
                 colores.remove(color)
 
-                for j, raza in enumerate(razas):
-                    print(f"{j + 1}. {raza}")
-                seleccion = int(input("Ingrese su Raza "))
-                while seleccion < 1 or seleccion > len(razas):
-                    seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                raza = razas[seleccion-1]
+                limpiarPantalla()
+                raza = razas[seleccionar(razas)-1]
 
-                jugador = Jugador(nombre=nombre, color=color, raza=raza)
+                jugador = Jugador(nombre, color, raza)
                 miPartida.jugadores = jugador
-
+                
                 if miPartida.cantidadJugadores >= 2 and miPartida.cantidadJugadores < 12:
-                    otro = input(f"¿Desea Cargar otro Jugador? ({miPartida.cantidadJugadores}/12) (Y/N) ")
-                    otro = otro.lower()
-                    while otro != "y" and otro != "n":
-                        otro = input(f"{error}Opcion invalida. Ingrese otra{reset} ")
-                        otro = otro.lower()
-                    if otro == "y":
-                        salida = False
-                    elif otro == "n":
-                        salida = True
+                    limpiarPantalla()
+                    empezar = input(f"{neutro}¿Empezar Partida? Jugadores ({miPartida.cantidadJugadores}/12) (Y/N){reset} ")
+                    empezar = siono(empezar)
 
+        elif opc == 2:
+            miPartida = partidas[1-1]
+            jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros")
+            miPartida.jugadores = jugador
+            jugador = Jugador("NICOLAS","Verde","Humanos")
+            miPartida.jugadores = jugador
+            jugador = Jugador("FRANCISCO","Amarillo","Orcos")
+            miPartida.jugadores = jugador
+
+        jugadoresTotales = miPartida.cantidadJugadores
         while True:
-            for i, jugador in enumerate(miPartida.jugadores):
-                print(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
-                PasarTurno = True
-                while PasarTurno:
-                    print(f"{cambiarColor(jugador.color)}{jugador} Partida: Jugadores({miPartida.cantidadJugadores}){reset}")
-                    print("1. Comprar Edificio Madera(500)")
-                    print("2. Seleccionar Edificio")
-                    print("3. Comprar Unidad")
-                    print("4. Seleccionar Unidad")
-                    print("5. Pasar Turno")
-                    print("0. RENDIRSE")
-                    accion = int(input(f"{cambiarColor(jugador.color)}¿Que Desea Hacer?{reset} "))
-                    while accion < 0 or accion > 5:
-                        accion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
+            for jugador in miPartida.jugadores:
+                printar(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
+                pasar = False
+                while not pasar:
+                    limpiarPantalla()
+                    print(f"{cambiarColor(jugador.color)}{jugador}{reset} // {neutro}Partida: Jugadores({miPartida.cantidadJugadores}/{jugadoresTotales}){reset}")
+                    menu = [f"Comprar Edificio por {neutro}500{reset} de Madera",
+                            "Comprar Unidad",
+                            "Seleccionar Edificio",
+                            "Seleccionar Unidad",
+                            "Pasar Turno",
+                            "RENDIRSE"]
+                    opc = seleccionar(menu, jugador.color)
 
-                    if accion == 1:
+                    if opc == 1:
                         if jugador.madera >= 500:
                             jugador.comprarEdificio()
-                            print(f"{exito}Edificio Adquirido{reset}")
+                            printar(f"{exito}Edificio Adquirido{reset}")
                         else:
-                            print(f"{error}No Posee Suficiente Madera{reset}")
-                        
-                    elif accion == 2:
+                            printar(f"{error}No Posee Suficiente Madera{reset}")
+
+                    elif opc == 2:
+                        limpiarPantalla()
+                        miUnidad = unidades[seleccionar(unidades, jugador.color)-1]
+                        if jugador.poblacionActual < jugador.limitePoblacion:
+                            if jugador.oro >= miUnidad.precioCompra:
+                                jugador.comprarUnidad(miUnidad)
+                                printar(f"{exito}Unidad Adquirida{reset}")
+                            else:
+                                printar(f"{error}No Posee Suficiente Oro{reset}")
+                        else:
+                            printar(f"{error}No Puede Comprar mas Unidades. Antes debe Ampliar su Reino{reset}")
+
+                    elif opc == 3:
                         if len(jugador.edificios) == 0:
-                            print(f"{error}No Posee Edificios{reset}")
+                            printar(f"{error}No Posee Edificios{reset}")
                         else:
-                            for i, edificio in enumerate(jugador.edificios):
-                                print(f"{i+1}. {edificio}")
-                            seleccion = int(input(f"{cambiarColor(jugador.color)}Seleccione un Edificio{reset} "))
-                            while seleccion < 1 or seleccion > len(jugador.edificios):
-                                seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                            edificioElegido = jugador.edificios[seleccion-1]
-                            print("0. Elimiar Edificio")
-                            print("1. Ver Estadisticas")
-                            print("2. Mejorar Edificio")
-                            opc = int(input(f"{cambiarColor(jugador.color)}¿Que Desea Hacer?{reset} "))
-                            while opc < 0 or opc > 2:
-                                opc = int(input(f"{error}Opcion invalida, Ingrese otra{reset}: "))
+                            limpiarPantalla()
+                            edificioElegido = jugador.edificios[seleccionar(jugador.edificios, jugador.color)-1]
+                            limpiarPantalla()
+                            print(edificioElegido)
+                            menu = ["Mejorar",
+                                    "Elimiar"]
+                            opc = seleccionar(menu, jugador.color)
 
                             if opc == 1:
-                                print(edificioElegido)
-
-                            elif opc == 2:
                                 if edificioElegido.nivel < 3:
                                     if jugador.oro >= edificioElegido.precioMejoraOro and jugador.madera >= edificioElegido.precioMejoraMadera:                   
                                         jugador.oro = jugador.oro - edificioElegido.precioMejoraOro
                                         jugador.madera = jugador.madera - edificioElegido.precioMejoraMadera
                                         edificioElegido.subirNivel()
-                                        print(f"{exito}Edificio Mejorado{reset}")
+                                        printar(f"{exito}Edificio Mejorado{reset}")
                                     else:
-                                        print(f"{error}No Posee Suficientes Recursos{reset}")
+                                        printar(f"{error}No Posee Suficientes Recursos{reset}")
                                 else:
-                                    print(f"{error}Edificio al Maximo Nivel{reset}")
+                                    printar(f"{error}Edificio Mejorado al Maximo{reset}")
 
-                            elif opc == 0:
-                                jugador.eliminarEdificio(edificioElegido)
-                                print(f"{exito}Edificio Eliminado{reset}")
+                            elif opc == 2:
+                                if jugador.cantEdificios == 1:
+                                    printar(f"{error}No Puede Eliminar Todos sus Edificios{reset}")
+                                else:
+                                    jugador.eliminarEdificio(edificioElegido)
+                                    printar(f"{exito}Edificio Eliminado{reset}")
 
-                    elif accion == 3:
-                        for i, unidad in enumerate(unidades):
-                            print(f"{i+1}. {unidad} precio: {unidad.precioCompra}")
-                        seleccion = int(input(f"{cambiarColor(jugador.color)}Que unidad desea comprar{reset} "))
-                        while seleccion < 1 or seleccion > len(unidades):
-                            seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                        miUnidad = unidades[seleccion-1]
-                        if jugador.poblacionActual < jugador.limitePoblacion:
-                            if jugador.oro >= miUnidad.precioCompra:
-                                jugador.comprarUnidad(miUnidad)
-                                print(f"{exito}Unidad Adquirida{reset}")
-                            else:
-                                print(f"{error}No Posee Suficiente Oro{reset}")
-                        else:
-                            print(f"{error}No Puede Comprar mas Unidades. Antes debe Ampliar su Reino{reset}")
-
-                    elif accion == 4:
+                    elif opc == 4:
                         if jugador.poblacionActual == 0:
-                            print(f"{error}No Posee Unidades{reset}")
+                            printar(f"{error}No Posee Unidades{reset}")
                         else:
-                            for i, unidad in enumerate(jugador.unidades):
-                                print(f"{i+1}. {unidad}")
-                            seleccion = int(input(f"{cambiarColor(jugador.color)}Seleccione una unidad{reset} "))
-                            while seleccion < 1 or seleccion > jugador.poblacionActual:
-                                seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                            unidadElegida = jugador.unidades[seleccion-1]
-                            print("0. Elimiar Unidad")
-                            print("1. Ver Estadisticas")
-                            if unidadElegida.tipoUnidad == "Recolector":
-                                print("2. recolectar")
-                                opc = int(input(f"{cambiarColor(jugador.color)}¿Que Desea Hacer?{reset} "))
-                                while opc < 0 or opc > 2:
-                                    opc = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                                if opc == 1:
-                                    print(unidadElegida)
-                                elif opc == 2:
-                                    unidadElegida.recolectar()
+                            limpiarPantalla()
+                            unidadElegida = jugador.unidades[seleccionar(jugador.unidades, jugador.color)-1]
+                            if isinstance(unidadElegida, UnidadRecoleccion):
+                                limpiarPantalla()
+                                print(unidadElegida)
+                                menu = ["Recolectar",
+                                        "Elimiar"]
+                                opc = seleccionar(menu, jugador.color)
+
+                                if opc == 1:# FALTA IMPLEMENTAR ##############################################################################
+                                    unidadElegida.recolectar
                                     PasarTurno = False
-                                elif opc == 0:
-                                    jugador.eliminarUnidad(unidadElegida)
-                                    print(f"{exito}Unidad Eliminada{reset}") 
+                                
+                                elif opc == 2:
+                                    cantRecoleccion = sum(1 for unidad in jugador.unidades if isinstance(unidad, UnidadRecoleccion))
+                                    if cantRecoleccion == 1:
+                                        printar(f"{error}No Puede Eliminar Todas sus Unidades de Recoleccion{reset}")
+                                    else:
+                                        jugador.eliminarUnidad(unidadElegida)
+                                        printar(f"{exito}Unidad Eliminada{reset}") 
+
                             else:
-                                print("2. Atacar")
-                                print("3. Comprar Item")
-                                print("4. Vender Item")
-                                opc = int(input(f"{cambiarColor(jugador.color)}¿Que Desea Hacer?{reset} "))
+                                limpiarPantalla()
+                                print(unidadElegida)
+                                menu = ["Atacar",
+                                        "Comprar Item",
+                                        "Vender Item",
+                                        "Elimiar"]
+                                opc = seleccionar(menu, jugador.color)
 
-                                while opc < 0 or opc > 4:
-                                    opc = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-
-                                if opc == 1:
-                                    print(unidadElegida)
-
-                                elif opc == 2:
-                                    unidadElegida.atacar()
+                                if opc == 1:# FALTA IMPLEMENTAR ##############################################################################
+                                    unidadElegida.atacar
                                     PasarTurno = False
-
-                                elif opc == 3:
+                                
+                                elif opc == 2:
                                     if len(unidadElegida.mochila) >= 6:
-                                        print(f"{error}Esta Unidad tiene la Mochila Llena{reset}")
+                                        printar(f"{error}Esta Unidad tiene la Mochila Llena{reset}")
                                     else:
-                                        print("0. Atras")
-                                        for i, item in enumerate(items):
-                                            print(f"{i+1}. {item}, Precio: {item.precioCompra}")
-                                        seleccion = int(input(f"{cambiarColor(jugador.color)}Seleccione el Item a Comprar{reset} "))
-                                        while seleccion < 0 or seleccion > len(items):
-                                            seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                                        if seleccion != 0:
-                                            miItem = items[seleccion-1]
-                                            if jugador.oro >= miItem.precioCompra:
-                                                unidadElegida.comprarItem(miItem)
-                                                jugador.oro = jugador.oro - miItem.precioCompra
-                                                print(f"{exito}Item Adquirido{reset}")                                   
-                                            else:
-                                                print(f"{cambiarColor(jugador.color)}No Posee Suficiente Oro{reset}")
+                                        limpiarPantalla()
+                                        miItem = items[seleccionar(items, jugador.color)-1]
+                                        if jugador.oro >= miItem.precioCompra:
+                                            unidadElegida.comprarItem(miItem)
+                                            jugador.oro = jugador.oro - miItem.precioCompra
+                                            printar(f"{exito}Item Adquirido{reset}")                                   
+                                        else:
+                                            printar(f"{error}No Posee Suficiente Oro{reset}")
                                 
-                                elif opc == 4:
+                                elif opc == 3:
                                     if len(unidadElegida.mochila) == 0:
-                                        print(f"{error}Esta Unidad no Posee Items en su Mochila{reset}")
+                                        printar(f"{error}Esta Unidad no Posee Items en su Mochila{reset}")
                                     else:
-                                        print("0. Atras")
-                                        for i, item in enumerate(unidadElegida.mochila):
-                                            print(f"{i+1}. {item}, Precio: {item.precioVenta}")
-                                        seleccion = int(input(f"{cambiarColor(jugador.color)}Seleccione el Item a Vender{reset} "))
-                                        while seleccion < 0 or seleccion > len(unidadElegida.mochila):
-                                            seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
-                                        if seleccion != 0:
-                                            miItem = unidadElegida.mochila[seleccion-1]
-                                            unidadElegida.venderItem(miItem)
-                                            jugador.oro = jugador.oro + miItem.precioVenta
-                                            print(f"{exito}Item Vendido{reset}")  
+                                        limpiarPantalla()
+                                        miItem = unidadElegida.mochila[seleccionar(unidadElegida.mochila, jugador.color)-1]
+                                        unidadElegida.venderItem(miItem)
+                                        jugador.oro = jugador.oro + miItem.precioVenta
+                                        printar(f"{exito}Item Vendido{reset}")
 
-                                elif opc == 0:
+                                elif opc == 4:
                                     jugador.eliminarUnidad(unidadElegida)
-                                    print(f"{exito}Unidad Eliminada{reset}")
+                                    printar(f"{exito}Unidad Eliminada{reset}")
 
-                    elif accion == 5:
+                    elif opc == 5:
+                        limpiarPantalla()
                         pasar = input(f"{cambiarColor(jugador.color)}Confirmar Pasar Turno Y/N{reset} ")
-                        pasar = pasar.lower()
-                        while pasar != "y" and pasar != "n":
-                            pasar = input(f"{error}Opcion invalida. Ingrese otra{reset} ")
-                            pasar = pasar.lower()
-                        if pasar == "y":
-                            PasarTurno = False
-                        elif pasar == "n":
-                            PasarTurno = True
+                        pasar = siono(pasar)
                                 
-                    elif accion == 0:
-                        jugador.perder()
-    elif opc == 2:
-        miPartida = partidas[0]
-        jugador = Jugador(nombre="FACUNDO", color="Rojo", raza="Elfos Oscuros")
-        miPartida.jugadores = jugador
-        jugador = Jugador(nombre="NICOLAS", color="Verde", raza="Humanos")
-        miPartida.jugadores = jugador
-        jugador = Jugador(nombre="FRANCISCO", color="Azul", raza="Orcos")
-        miPartida.jugadores = jugador
-        opc = 1
+                    elif opc == 6: # FALTA IMPLEMENTAR ##############################################################################
+                        jugador.perder
+                        PasarTurno = False
+
+    elif opc == 3:
+        salir = True
+        print(f"{exito}HASTA LA PROXIMA{reset}")
