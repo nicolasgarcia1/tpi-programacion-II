@@ -2,11 +2,13 @@ from unidad import Unidad
 from unidadRecoleccion import UnidadRecoleccion
 from edificio import Edificio
 from colores import *
+import copy
+
 class Jugador():
     __listaNombres = []
     __listaColores = []
 
-    def __init__(self, nombre:str, color:str, raza:str, oro:int=5000, madera:int=5000) -> None:
+    def __init__(self, nombre:str, color:str, raza:str, oro:int=0, madera:int=0) -> None:
         self.__nombre = Jugador.__validarNombre(nombre)
         self.__color = Jugador.__validarColor(color)
         self.__raza = raza
@@ -62,7 +64,7 @@ class Jugador():
             elif edificio.nivel == 2:
                 limitePoblacion = limitePoblacion + 5
             elif edificio.nivel == 3:
-                limitePoblacion = limitePoblacion +10
+                limitePoblacion = limitePoblacion + 10
         return limitePoblacion
 
     @property
@@ -97,6 +99,7 @@ class Jugador():
         self.__edificios.remove(edificioElegido)
 
     def comprarUnidad(self, miUnidad:Unidad):
+        miUnidad = copy.deepcopy(miUnidad)
         self.__unidades.append(miUnidad)
         newOro = self.oro - miUnidad.precioCompra
         self.oro = newOro

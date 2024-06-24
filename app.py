@@ -76,11 +76,11 @@ while not salir:
 
         elif opc == 2:
             miPartida = partidas[1-1]
-            jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros")
+            jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros",5000,5000)
             miPartida.jugadores = jugador
-            jugador = Jugador("NICOLAS","Verde","Humanos")
+            jugador = Jugador("NICOLAS","Verde","Humanos",5000,5000)
             miPartida.jugadores = jugador
-            jugador = Jugador("FRANCISCO","Amarillo","Orcos")
+            jugador = Jugador("FRANCISCO","Amarillo","Orcos",5000,5000)
             miPartida.jugadores = jugador
 
         jugadoresTotales = miPartida.cantidadJugadores
@@ -108,8 +108,8 @@ while not salir:
 
                     elif opc == 2:
                         limpiarPantalla()
-                        miUnidad = unidades[seleccionar(unidades, jugador.color)-1]
                         if jugador.poblacionActual < jugador.limitePoblacion:
+                            miUnidad = unidades[seleccionar(unidades, jugador.color)-1]
                             if jugador.oro >= miUnidad.precioCompra:
                                 jugador.comprarUnidad(miUnidad)
                                 printar(f"{exito}Unidad Adquirida{reset}")
