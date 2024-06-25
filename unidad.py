@@ -37,7 +37,7 @@ class Unidad(ABC):
     
     @xp.setter
     def xp(self, nueva_xp):
-        self.__xp = self.__xp + nueva_xp
+        self.__xp = nueva_xp
 
     @property
     def precioCompra(self):
@@ -45,6 +45,4 @@ class Unidad(ABC):
 
     #METODOS
     def subirNivel(self):
-        # modifica el atributo xp si supera 100 de xp, resta 100 a xp, y asigna el valor con el setter y sube +1 a nivel
-        self.__nivel += 1
-        self.__xp = 0
+            self.nivel = self.nivel + 1

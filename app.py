@@ -78,7 +78,7 @@ while not salir:
             miPartida = partidas[1-1]
             jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros",5000,5000)
             miPartida.jugadores = jugador
-            jugador = Jugador("NICOLAS","Verde","Humanos",5000,5000)
+            jugador = Jugador("NICOLAS","Verde","Humanos",50,50)
             miPartida.jugadores = jugador
             jugador = Jugador("FRANCISCO","Amarillo","Orcos",5000,5000)
             miPartida.jugadores = jugador
@@ -86,6 +86,7 @@ while not salir:
         jugadoresTotales = miPartida.cantidadJugadores
         while True:
             for jugador in miPartida.jugadores:
+
                 printar(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
                 pasar = False
                 while not pasar:
@@ -158,21 +159,37 @@ while not salir:
                             if isinstance(unidadElegida, UnidadRecoleccion):
                                 limpiarPantalla()
                                 print(unidadElegida)
-                                menu = ["Recolectar",
+                                menu = ["Recolectar Oro",
+                                        "Recolectar Madera",
                                         "Elimiar"]
                                 opc = seleccionar(menu, jugador.color)
 
-                                if opc == 1:# FALTA IMPLEMENTAR ##############################################################################
-                                    unidadElegida.recolectar
-                                    PasarTurno = False
-                                
+                                if opc == 1:
+                                    if miPartida.cantidadOro > unidadElegida.velocidadRecoleccion:
+                                        recoleccion:int = unidadElegida.recolectar()
+                                        jugador.oro = jugador.oro + recoleccion
+                                        miPartida.cantidadOro = miPartida.cantidadOro - recoleccion
+                                        pasar = False
+                                    else:
+                                        printar(f"{error}Error, recursos insuficientes en el mapa{reset}")
+
                                 elif opc == 2:
+                                    if miPartida.cantidadMadera > unidadElegida.velocidadRecoleccion:
+                                        recoleccion:int = unidadElegida.recolectar()
+                                        jugador.madera = jugador.madera + recoleccion
+                                        miPartida.cantidadMadera = miPartida.cantidadMadera - recoleccion
+                                        pasar = False
+                                    else:
+                                        printar(f"{error}Error, recursos insuficientes en el mapa{reset}")
+                                
+                                elif opc == 3:
                                     cantRecoleccion = sum(1 for unidad in jugador.unidades if isinstance(unidad, UnidadRecoleccion))
                                     if cantRecoleccion == 1:
                                         printar(f"{error}No Puede Eliminar Todas sus Unidades de Recoleccion{reset}")
                                     else:
                                         jugador.eliminarUnidad(unidadElegida)
                                         printar(f"{exito}Unidad Eliminada{reset}") 
+
 
                             else:
                                 limpiarPantalla()
@@ -183,9 +200,18 @@ while not salir:
                                         "Elimiar"]
                                 opc = seleccionar(menu, jugador.color)
 
-                                if opc == 1:# FALTA IMPLEMENTAR ##############################################################################
-                                    unidadElegida.atacar
-                                    PasarTurno = False
+                                if opc == 1:
+                                    opcionJugador = miPartida.jugadores[seleccionar(miPartida.jugadores, jugador.color)-1]
+                                    opcionUnidad = opcionJugador.unidades[seleccionar(opcionJugador.unidades, jugador.color)-1]
+                                    unidadElegida.atacar(opcionUnidad)
+                                    if opcionUnidad.vida <= 0:
+                                        opcionJugador.eliminarUnidad(opcionUnidad)
+                                        printar(f"{opcionUnidad.tipoUnidad} de {opcionJugador.nombre} ha muerto ")
+                                        if opcionJugador.poblacionActual == 0 and opcionJugador.oro < 100 and opcionJugador.madera < 500 or opcionJugador.cantEdificios == 0:
+                                            printar(f"{opcionJugador.nombre} ha perdido ")
+                                            miPartida.jugadores.remove(opcionJugador)
+
+                                    pasar = True
                                 
                                 elif opc == 2:
                                     if len(unidadElegida.mochila) >= 6:
