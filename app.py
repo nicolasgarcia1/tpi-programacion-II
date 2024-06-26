@@ -165,26 +165,26 @@ while not salir:
                                 opc = seleccionar(menu, jugador.color)
 
                                 if opc == 1:
-                                    if miPartida.cantidadOro > unidadElegida.velocidadRecoleccion:
-                                        recoleccion:int = unidadElegida.recolectar()
-                                        jugador.oro = jugador.oro + recoleccion
-                                        miPartida.cantidadOro = miPartida.cantidadOro - recoleccion
+                                    if miPartida.cantidadOro >= unidadElegida.velocidadRecoleccion:
+                                        jugador.oro = jugador.oro + unidadElegida.recolectar()
+                                        miPartida.cantidadOro = miPartida.cantidadOro - unidadElegida.recolectar()
                                         pasar = False
+                                        printar(f"{exito}{jugador.velocidadRecoleccion} de Oro Recolectado{reset}")
                                     else:
-                                        printar(f"{error}Error, recursos insuficientes en el mapa{reset}")
+                                        printar(f"{error}Recursos Insuficientes en el Mapa{reset}")
 
                                 elif opc == 2:
                                     if miPartida.cantidadMadera > unidadElegida.velocidadRecoleccion:
-                                        recoleccion:int = unidadElegida.recolectar()
-                                        jugador.madera = jugador.madera + recoleccion
-                                        miPartida.cantidadMadera = miPartida.cantidadMadera - recoleccion
+                                        jugador.madera = jugador.madera + unidadElegida.recolectar()
+                                        miPartida.cantidadMadera = miPartida.cantidadMadera - unidadElegida.recolectar()
                                         pasar = False
+                                        printar(f"{exito}{jugador.velocidadRecoleccion} de Madera Recolectado{reset}")
                                     else:
-                                        printar(f"{error}Error, recursos insuficientes en el mapa{reset}")
+                                        printar(f"{error}Recursos Insuficientes en el Mapa{reset}")
                                 
                                 elif opc == 3:
-                                    cantRecoleccion = sum(1 for unidad in jugador.unidades if isinstance(unidad, UnidadRecoleccion))
-                                    if cantRecoleccion == 1:
+                                    cantRecolectores = sum(1 for unidad in jugador.unidades if isinstance(unidad, UnidadRecoleccion))
+                                    if cantRecolectores == 1:
                                         printar(f"{error}No Puede Eliminar Todas sus Unidades de Recoleccion{reset}")
                                     else:
                                         jugador.eliminarUnidad(unidadElegida)
