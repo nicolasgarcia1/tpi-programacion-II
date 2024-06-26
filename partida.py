@@ -44,7 +44,10 @@ class Partida():
     
     # METODOS
     def terminarPartida(self) -> None:
-        pass
+        if self.cantidadJugadores == 1:
+            return True
+        else:
+            return False
         # se llama desde el metodo perder de jugador y valida si la cantidad de jugadores en la lista de jugadores 
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
 

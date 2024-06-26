@@ -108,7 +108,13 @@ class Jugador():
         self.__unidades.remove(unidadElegida)
        
     def perder(self):
-        pass
+        from partida import Partida
+        ## Partida.jugadores.remove(self) da error, ver (crear funcion eliminar en Partida?)
+        restantes = Partida.terminarPartida()
+        return restantes
+        ## retorna verdadero si termina la partida
+
+        
         # cuando una unidad muera verificar si fue la ultima del jugador en caso positivo remover al jugador de la lista de jugadores 
         # y en ese mismo paso invocar el metodo terminarPartida el cual validara si la cantidad de jugadores en la lista de jugadores 
         # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
