@@ -2,6 +2,7 @@ from jugador import Jugador
 from datos import *
 from colores import *
 import time
+import sys
 
 def seleccionar(lista:list, color:str=None):
     for i, elemento in enumerate(lista):
@@ -56,7 +57,7 @@ while not salir:
             empezar = False
             while not empezar:
                 limpiarPantalla()
-                nombre = input(f"{neutro}Jugaddor {miPartida.cantidadJugadores + 1} Ingrese su Nombre{reset} ")
+                nombre = input(f"{neutro}Jugaddor {miPartida.cantidadJugadores + 1} Ingrese su Nombre {reset} ")
                 nombre = nombre.upper()
 
                 limpiarPantalla()
@@ -128,7 +129,7 @@ while not salir:
                             limpiarPantalla()
                             print(edificioElegido)
                             menu = ["Mejorar",
-                                    "Elimiar"]
+                                    "Eliminar"]
                             opc = seleccionar(menu, jugador.color)
 
                             if opc == 1:
@@ -210,6 +211,11 @@ while not salir:
                                         if opcionJugador.poblacionActual == 0 and opcionJugador.oro < 100 and opcionJugador.madera < 500 or opcionJugador.cantEdificios == 0:
                                             printar(f"{opcionJugador.nombre} ha perdido ")
                                             miPartida.jugadores.remove(opcionJugador)
+                                            partidaTerminada = miPartida.terminarPartida()
+                                            if partidaTerminada:
+                                                printar(f"{cambiarColor(jugador.color)}{miPartida.jugadores[0].nombre} ha ganado la partida{reset}"
+                                                        f"{exito}Gracias por jugar{reset}")
+                                                sys.exit()
 
                                     pasar = True
                                 
@@ -245,9 +251,14 @@ while not salir:
                         pasar = input(f"{cambiarColor(jugador.color)}Confirmar Pasar Turno Y/N{reset} ")
                         pasar = siono(pasar)
                                 
-                    elif opc == 6: # FALTA IMPLEMENTAR ##############################################################################
-                        jugador.perder
-                        PasarTurno = False
+                    elif opc == 6: # FALTA IMPLEMENTAR 
+                        partidaTerminada = jugador.perder()
+                        if partidaTerminada:
+                            printar(f"{cambiarColor(jugador.color)}{miPartida.jugadores[0].nombre} ha ganado la partida{reset}"
+                                    f"{exito}Gracias por jugar{reset}")
+                            sys.exit()
+                        else: 
+                            pasar = True
 
     elif opc == 3:
         salir = True
