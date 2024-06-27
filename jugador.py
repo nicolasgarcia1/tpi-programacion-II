@@ -8,7 +8,7 @@ class Jugador():
     __listaNombres = []
     __listaColores = []
 
-    def __init__(self, nombre:str, color:str, raza:str, oro:int=0, madera:int=0) -> None:
+    def __init__(self, nombre:str, color:str, raza:str, oro:int=0, madera:int=0, estado:bool=True) -> None:
         self.__nombre = Jugador.__validarNombre(nombre)
         self.__color = Jugador.__validarColor(color)
         self.__raza = raza
@@ -16,6 +16,7 @@ class Jugador():
         self.__madera = madera
         self.__edificios = [Edificio()]
         self.__unidades = [UnidadRecoleccion()]
+        self.__estado = estado
 
     # GETTERS Y SETTERS
     @property
@@ -53,6 +54,14 @@ class Jugador():
     @property
     def unidades(self):
         return self.__unidades
+    
+    @property
+    def estado(self):
+        return self.__estado
+
+    @estado.setter
+    def estado(self, newEstado):
+        self.__estado = newEstado
 
     # CALCULADOS
     @property
@@ -108,16 +117,7 @@ class Jugador():
         self.__unidades.remove(unidadElegida)
        
     def perder(self):
-        from partida import Partida
-        ## Partida.jugadores.remove(self) da error, ver (crear funcion eliminar en Partida?)
-        restantes = Partida.terminarPartida()
-        return restantes
-        ## retorna verdadero si termina la partida
-
-        
-        # cuando una unidad muera verificar si fue la ultima del jugador en caso positivo remover al jugador de la lista de jugadores 
-        # y en ese mismo paso invocar el metodo terminarPartida el cual validara si la cantidad de jugadores en la lista de jugadores 
-        # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
+        self.estado = False
 
     def __str__(self):
-        return f"{self.nombre}: Oro({neutro}{self.oro}{cambiarColor(self.color)}), Madera({neutro}{self.madera}{cambiarColor(self.color)}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)})"
+        return f"{cambiarColor(self.color)}{self.nombre}: Oro({neutro}{self.oro}{cambiarColor(self.color)}), Madera({neutro}{self.madera}{cambiarColor(self.color)}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)}){reset}"

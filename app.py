@@ -1,8 +1,8 @@
 from jugador import Jugador
+from edificio import Edificio
 from datos import *
 from colores import *
 import time
-import sys
 
 def seleccionar(lista:list, color:str=None):
     for i, elemento in enumerate(lista):
@@ -37,11 +37,16 @@ def limpiarPantalla():
 def printar(mensaje:str):
     limpiarPantalla()
     print(mensaje)
-    time.sleep(1)
+    time.sleep(1.5)
 
 
 salir = False
 while not salir:
+
+    miPartida = None
+    if miPartida:
+        miPartida.reiniciar()
+
     limpiarPantalla()
     print("Menu Principal")
     menu = ["Jugar",
@@ -79,20 +84,24 @@ while not salir:
             miPartida = partidas[1-1]
             jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros",5000,5000)
             miPartida.jugadores = jugador
-            jugador = Jugador("NICOLAS","Verde","Humanos",50,50)
+            jugador = Jugador("NICOLAS","Verde","Humanos",5000,5000)
             miPartida.jugadores = jugador
             jugador = Jugador("FRANCISCO","Amarillo","Orcos",5000,5000)
             miPartida.jugadores = jugador
 
-        jugadoresTotales = miPartida.cantidadJugadores
-        while True:
+        final = False
+        while not final:
             for jugador in miPartida.jugadores:
-
-                printar(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
-                pasar = False
+                if jugador.estado:
+                    printar(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
+                    pasar = False
+                else:
+                    pasar = True
+                    
                 while not pasar:
                     limpiarPantalla()
-                    print(f"{cambiarColor(jugador.color)}{jugador}{reset} // {neutro}Partida: Jugadores({miPartida.cantidadJugadores}/{jugadoresTotales}){reset}")
+                    jugadoresActivos = sum(1 for jugador in miPartida.jugadores if jugador.estado)
+                    print(f"{cambiarColor(jugador.color)}{jugador}{reset} // {neutro}Partida: Jugadores({jugadoresActivos}/{miPartida.cantidadJugadores}){reset}")
                     menu = [f"Comprar Edificio por {neutro}500{reset} de Madera",
                             "Comprar Unidad",
                             "Seleccionar Edificio",
@@ -167,19 +176,21 @@ while not salir:
 
                                 if opc == 1:
                                     if miPartida.cantidadOro >= unidadElegida.velocidadRecoleccion:
-                                        jugador.oro = jugador.oro + unidadElegida.recolectar()
-                                        miPartida.cantidadOro = miPartida.cantidadOro - unidadElegida.recolectar()
+                                        jugador.oro = jugador.oro + unidadElegida.velocidadRecoleccion
+                                        miPartida.cantidadOro = miPartida.cantidadOro - unidadElegida.velocidadRecoleccion
                                         pasar = False
-                                        printar(f"{exito}{jugador.velocidadRecoleccion} de Oro Recolectado{reset}")
+                                        printar(f"{exito}{unidadElegida.velocidadRecoleccion} de Oro Recolectado{reset}")
+                                        unidadElegida.recolectar()
                                     else:
                                         printar(f"{error}Recursos Insuficientes en el Mapa{reset}")
 
                                 elif opc == 2:
-                                    if miPartida.cantidadMadera > unidadElegida.velocidadRecoleccion:
-                                        jugador.madera = jugador.madera + unidadElegida.recolectar()
-                                        miPartida.cantidadMadera = miPartida.cantidadMadera - unidadElegida.recolectar()
-                                        pasar = False
-                                        printar(f"{exito}{jugador.velocidadRecoleccion} de Madera Recolectado{reset}")
+                                    if miPartida.cantidadMadera > unidadElegida.velocidadRecoleccion:  
+                                        jugador.madera = jugador.madera + unidadElegida.velocidadRecoleccion
+                                        miPartida.cantidadMadera = miPartida.cantidadMadera - unidadElegida.velocidadRecoleccion
+                                        pasar = True
+                                        printar(f"{exito}{unidadElegida.velocidadRecoleccion} de Madera Recolectado{reset}")
+                                        unidadElegida.recolectar()
                                     else:
                                         printar(f"{error}Recursos Insuficientes en el Mapa{reset}")
                                 
@@ -202,21 +213,40 @@ while not salir:
                                 opc = seleccionar(menu, jugador.color)
 
                                 if opc == 1:
-                                    opcionJugador = miPartida.jugadores[seleccionar(miPartida.jugadores, jugador.color)-1]
-                                    opcionUnidad = opcionJugador.unidades[seleccionar(opcionJugador.unidades, jugador.color)-1]
-                                    unidadElegida.atacar(opcionUnidad)
-                                    if opcionUnidad.vida <= 0:
-                                        opcionJugador.eliminarUnidad(opcionUnidad)
-                                        printar(f"{opcionUnidad.tipoUnidad} de {opcionJugador.nombre} ha muerto ")
-                                        if opcionJugador.poblacionActual == 0 and opcionJugador.oro < 100 and opcionJugador.madera < 500 or opcionJugador.cantEdificios == 0:
-                                            printar(f"{opcionJugador.nombre} ha perdido ")
-                                            miPartida.jugadores.remove(opcionJugador)
-                                            partidaTerminada = miPartida.terminarPartida()
-                                            if partidaTerminada:
-                                                printar(f"{cambiarColor(jugador.color)}{miPartida.jugadores[0].nombre} ha ganado la partida{reset}"
-                                                        f"{exito}Gracias por jugar{reset}")
-                                                sys.exit()
+                                    copiaListaJugadores = []
+                                    for jugadorActivo in miPartida.jugadores:
+                                        if jugadorActivo.estado and jugadorActivo.nombre != jugador.nombre:
+                                            copiaListaJugadores.append(jugadorActivo)
 
+                                    limpiarPantalla()
+                                    opcionJugador = copiaListaJugadores[seleccionar(copiaListaJugadores, jugador.color)-1]
+
+                                    limpiarPantalla()
+                                    menu = ["Atacar Unidades",
+                                            "Atacar Edificios"]
+                                    opc = seleccionar(menu, jugador.color)
+
+                                    if opc == 1:
+                                        opcionAtaque = opcionJugador.unidades[seleccionar(opcionJugador.unidades, jugador.color)-1]
+                                    elif opc == 2:
+                                        opcionAtaque = opcionJugador.edificios[seleccionar(opcionJugador.edificios, jugador.color)-1]
+
+                                    unidadElegida.atacar(opcionAtaque)
+                                    if opcionAtaque.vida <= 0:
+                                        if isinstance(opcionAtaque, Edificio):
+                                            opcionJugador.eliminarEdificio(opcionAtaque)
+                                            printar(f"{opcionAtaque.tipoEdificio} de {cambiarColor(opcionJugador.color)}{opcionJugador.nombre}{reset} se ha Derrumbado")
+                                        else:
+                                            opcionJugador.eliminarUnidad(opcionAtaque)
+                                            printar(f"{opcionAtaque.tipoUnidad} de {cambiarColor(opcionJugador.color)}{opcionJugador.nombre}{reset} ha Muerto")
+
+                                        if opcionJugador.poblacionActual == 0:
+                                            printar(f"{cambiarColor(opcionJugador.color)}{opcionJugador.nombre}{reset} ha Perdido")
+                                            opcionJugador.perder()
+                                            if miPartida.terminarPartida():
+                                                printar(f"{cambiarColor(jugador.color)}{jugador.nombre}{reset} ha Ganado la Partida")
+                                                printar(f"{exito}Gracias por jugar{reset}")
+                                                final = False
                                     pasar = True
                                 
                                 elif opc == 2:
@@ -251,14 +281,17 @@ while not salir:
                         pasar = input(f"{cambiarColor(jugador.color)}Confirmar Pasar Turno Y/N{reset} ")
                         pasar = siono(pasar)
                                 
-                    elif opc == 6: # FALTA IMPLEMENTAR 
-                        partidaTerminada = jugador.perder()
-                        if partidaTerminada:
-                            printar(f"{cambiarColor(jugador.color)}{miPartida.jugadores[0].nombre} ha ganado la partida{reset}"
-                                    f"{exito}Gracias por jugar{reset}")
-                            sys.exit()
-                        else: 
+                    elif opc == 6:
+                        rendirse = input(f"{cambiarColor(jugador.color)}¿Rendirse? (Y/N){reset} ")
+                        siono(rendirse)
+                        if rendirse:
+                            printar(f"{cambiarColor(jugador.color)}{jugador.nombre}{reset} ha Perdido")
+                            jugador.perder()
                             pasar = True
+                            if miPartida.terminarPartida():
+                                printar(f"{cambiarColor(miPartida.jugadores[0].color)}{miPartida.jugadores[0].nombre}{reset} ha Ganado la Partida")
+                                printar(f"{exito}Gracias por jugar{reset}")
+                                final = True
 
     elif opc == 3:
         salir = True

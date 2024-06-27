@@ -44,12 +44,14 @@ class Partida():
     
     # METODOS
     def terminarPartida(self) -> None:
-        if self.cantidadJugadores == 1:
+        cantidadJugadoresActivos = sum(1 for jugador in self.__jugadores if jugador.estado)
+        if cantidadJugadoresActivos == 1:
             return True
         else:
             return False
-        # se llama desde el metodo perder de jugador y valida si la cantidad de jugadores en la lista de jugadores 
-        # es igual a 1 y en caso positivo lo declara ganador y finaliza la ejecucion del codigo
+
+    def reiniciar(self):
+        self.__jugadores = []
 
     def __str__(self):
         return (f"Mapa: {self.mapa}, Oro: {neutro}{self.cantidadOro}{reset} , Madera: {neutro}{self.cantidadMadera}{reset}")

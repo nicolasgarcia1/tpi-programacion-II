@@ -3,7 +3,7 @@ from item import Item
 from colores import neutro, reset
 
 class UnidadGuerra(Unidad):
-    def __init__(self, tipoUnidad:str, tipoDaño:str, daño:int, tipoDefensa:str, defensa:int, precioCompra:int, nivel:int=1, vida:int=500, xp:int=0):
+    def __init__(self, tipoUnidad:str, tipoDaño:str, daño:int, tipoDefensa:str, defensa:int, precioCompra:int, nivel:int=1, vida:int=100, xp:int=0):
         super().__init__(tipoUnidad, precioCompra, nivel, vida, xp)
         self.__tipoDaño = tipoDaño
         self.__daño = daño
@@ -42,10 +42,12 @@ class UnidadGuerra(Unidad):
     
     # METODOS
     def atacar(self, unidadAtacada):
-        unidadAtacada.vida = unidadAtacada.vida - self.daño
-        # selecciona un jugador, selecciona una de sus unidades (puede ser edificio o unidad), se calculan los daños y se actualizan los atributos de los jugadores
-        # /se podria hacer un bucle donde las unidades se atacan mutuamente por turnos hasta la muerte de alguno de los dos
-        # invocar la/s funcion/es morir de la/s unidad/es correspondiente/s
+        if isinstance(unidadAtacada, UnidadGuerra):
+            dañoRecivido = self.daño - unidadAtacada.defensa 
+            if dañoRecivido > 0:
+                unidadAtacada.vida = unidadAtacada.vida - dañoRecivido
+        else:
+            unidadAtacada.vida = unidadAtacada.vida - self.daño
     
     def comprarItem(self, miItem:Item) -> None:
         self.vida = self.vida + miItem.vida
