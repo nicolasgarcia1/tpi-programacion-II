@@ -4,44 +4,44 @@ class Unidad(ABC):
     
     @abstractmethod
     def __init__(self, tipoUnidad:str, precioCompra:int, nivel:int, vida:int, xp:int):
-        self.__tipoUnidad = tipoUnidad
-        self.__nivel = nivel
-        self.__vida = vida
-        self.__xp = xp
-        self.__precioCompra = precioCompra
+        self._tipoUnidad = tipoUnidad
+        self._nivel = nivel
+        self._vida = vida
+        self._xp = xp
+        self._precioCompra = precioCompra
 
     # GETTERS Y SETTERS
     @property
     def tipoUnidad(self):
-        return self.__tipoUnidad
+        return self._tipoUnidad
 
     @property
     def nivel(self):
-        return self.__nivel
+        return self._nivel
     
     @nivel.setter
     def nivel(self, newNivel):
-        self.__nivel = newNivel
+        self._nivel = newNivel
 
     @property
     def vida(self):
-        return self.__vida
+        return self._vida
     
     @vida.setter
     def vida(self, newVida):
-        self.__vida = newVida
+        self._vida = newVida
 
     @property
     def xp(self):
-        return self.__xp
+        return self._xp
     
     @xp.setter
     def xp(self, nueva_xp):
-        self.__xp = nueva_xp
+        self._xp = nueva_xp
 
     @property
     def precioCompra(self):
-        return self.__precioCompra
+        return self._precioCompra
 
     #METODOS
     def subirNivel(self):

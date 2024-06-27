@@ -20,6 +20,7 @@ def seleccionar(lista:list, color:str=None):
         seleccion = int(input(f"{error}Opcion invalida. Ingrese otra{reset} "))
     return seleccion
 
+
 def siono(respuesta):
     respuesta = respuesta.lower()
     while respuesta != "y" and respuesta != "n":
@@ -31,8 +32,10 @@ def siono(respuesta):
     elif respuesta == "n":
         return False
     
+
 def limpiarPantalla():
     print("\033c", end="")
+
 
 def printar(mensaje:str):
     limpiarPantalla()
@@ -42,7 +45,6 @@ def printar(mensaje:str):
 
 salir = False
 while not salir:
-
     miPartida = None
     if miPartida:
         miPartida.reiniciar()
@@ -92,7 +94,7 @@ while not salir:
         final = False
         while not final:
             for jugador in miPartida.jugadores:
-                if jugador.estado:
+                if jugador.estado and not miPartida.terminarPartida():
                     printar(f"Turno de {cambiarColor(jugador.color)}{jugador.nombre}{reset}")
                     pasar = False
                 else:
