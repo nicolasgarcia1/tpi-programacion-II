@@ -51,7 +51,9 @@ class Partida():
             return False
 
     def reiniciar(self):
+        from jugador import Jugador
         self.__jugadores = []
+        Jugador.reiniciar()
 
     def __str__(self):
         return (f"Mapa: {self.mapa}, Oro: {neutro}{self.cantidadOro}{reset} , Madera: {neutro}{self.cantidadMadera}{reset}")

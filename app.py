@@ -3,6 +3,7 @@ from edificio import Edificio
 from datos import *
 from colores import *
 import time
+import copy
 
 def seleccionar(lista:list, color:str=None):
     for i, elemento in enumerate(lista):
@@ -45,9 +46,8 @@ def printar(mensaje:str):
 
 salir = False
 while not salir:
-    miPartida = None
-    if miPartida:
-        miPartida.reiniciar()
+    if Jugador:
+        Jugador.reiniciar()
 
     limpiarPantalla()
     print("Menu Principal")
@@ -60,6 +60,9 @@ while not salir:
         if opc == 1:
             limpiarPantalla()
             miPartida = partidas[seleccionar(partidas)-1]
+            miPartida.reiniciar()
+            copiaColores = copy.deepcopy(colores)
+
 
             empezar = False
             while not empezar:
@@ -68,8 +71,8 @@ while not salir:
                 nombre = nombre.upper()
 
                 limpiarPantalla()
-                color = colores[seleccionar(colores)-1]
-                colores.remove(color)
+                color = copiaColores[seleccionar(copiaColores)-1]
+                copiaColores.remove(color)
 
                 limpiarPantalla()
                 raza = razas[seleccionar(razas)-1]
@@ -84,6 +87,7 @@ while not salir:
 
         elif opc == 2:
             miPartida = partidas[1-1]
+            miPartida.reiniciar()
             jugador = Jugador("FACUNDO","Rojo","Elfos Oscuros",5000,5000)
             miPartida.jugadores = jugador
             jugador = Jugador("NICOLAS","Verde","Humanos",5000,5000)
@@ -248,7 +252,7 @@ while not salir:
                                             if miPartida.terminarPartida():
                                                 printar(f"{cambiarColor(jugador.color)}{jugador.nombre}{reset} ha Ganado la Partida")
                                                 printar(f"{exito}Gracias por jugar{reset}")
-                                                final = False
+                                                final = True
                                     pasar = True
                                 
                                 elif opc == 2:
@@ -285,15 +289,18 @@ while not salir:
                                 
                     elif opc == 6:
                         rendirse = input(f"{cambiarColor(jugador.color)}¿Rendirse? (Y/N){reset} ")
-                        siono(rendirse)
+                        rendirse = siono(rendirse)
                         if rendirse:
                             printar(f"{cambiarColor(jugador.color)}{jugador.nombre}{reset} ha Perdido")
                             jugador.perder()
                             pasar = True
                             if miPartida.terminarPartida():
-                                printar(f"{cambiarColor(miPartida.jugadores[0].color)}{miPartida.jugadores[0].nombre}{reset} ha Ganado la Partida")
-                                printar(f"{exito}Gracias por jugar{reset}")
+                                for jugadorGanador in miPartida.jugadores:
+                                    if jugadorGanador.estado == True:
+                                        ganador = jugadorGanador
                                 final = True
+                                printar(f"{cambiarColor(ganador.color)}{ganador.nombre}{reset} ha Ganado la Partida")
+                                printar(f"{exito}Gracias por jugar{reset}")
 
     elif opc == 3:
         salir = True

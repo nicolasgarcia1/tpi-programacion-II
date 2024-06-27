@@ -114,5 +114,10 @@ class Jugador():
     def perder(self):
         self.estado = False
 
+    @classmethod
+    def reiniciar(cls):
+        cls.__listaNombres = []
+        cls.__listaColores = []
+
     def __str__(self):
         return f"{cambiarColor(self.color)}{self.nombre}: Oro({neutro}{self.oro}{cambiarColor(self.color)}), Madera({neutro}{self.madera}{cambiarColor(self.color)}), {self.raza}({self.poblacionActual}/{self.limitePoblacion}), Edificios({len(self.edificios)}){reset}"
