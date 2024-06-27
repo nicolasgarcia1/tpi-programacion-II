@@ -11,16 +11,16 @@ Proyecto integrador para la materia Programación-II desarrollado en Python. Con
 Da inicio al juego. Antes de comenzar, cada jugador deberá elegir su nombre, color y raza. Una vez configurados, empezará el juego cuyo objetivo será realizar acciones estratégicas para eliminar a los oponentes. Las principales funcionalidades disponibles para los jugadores son:
 
 #### Comprar edificios
-**Descripción:** Los jugadores pueden comprar edificios que les permitirán comprar más unidades.
+- Los jugadores pueden comprar edificios que les permitirán comprar más unidades.
 
 #### Comprar unidades
-**Descripción** Las unidades son esenciales para el combate. Los jugadores pueden obtener diversos tipos de unidades de ataque, y/o adquirir nuevos recolectores.
+- Las unidades son esenciales para el combate. Los jugadores pueden obtener diversos tipos de unidades de ataque, y/o adquirir nuevos recolectores.
 
 #### Mejorar edificios y unidades
-Los jugadores pueden mejorar sus edificios para poder alojar más tropas y a sus unidades para aumentar su eficiencia y capacidad en combate.
+- Los jugadores pueden mejorar sus edificios para poder alojar más tropas y a sus unidades para aumentar su eficiencia y capacidad en combate.
 
 #### Atacar
-**Descripción** Los jugadores pueden atacar a las unidades y edificios enemigos para debilitarlos y ganar la partida.
+- Los jugadores pueden atacar a las unidades y edificios enemigos para debilitarlos y ganar la partida.
 
 #### Fin de la partida
 La partida termina cuando queda un único jugador en pie. Este jugador será declarado el ganador.

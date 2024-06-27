@@ -17,10 +17,6 @@ class Item():
         return self.__precioCompra
 
     @property
-    def precioVenta(self):
-        return self.__precioCompra - 250
-
-    @property
     def daño(self):
         return self.__daño
 
@@ -31,6 +27,11 @@ class Item():
     @property
     def defensa(self):
         return self.__defensa
+
+    # CALCULADOS
+    @property
+    def precioVenta(self):
+        return self.__precioCompra - 250
 
     # METODOS
     def __str__(self) -> str:
