@@ -68,12 +68,7 @@ class Jugador():
     def limitePoblacion(self):
         limitePoblacion = 0
         for edificio in self.edificios:
-            if edificio.nivel == 1:
-                limitePoblacion = limitePoblacion + 1
-            elif edificio.nivel == 2:
-                limitePoblacion = limitePoblacion + 5
-            elif edificio.nivel == 3:
-                limitePoblacion = limitePoblacion + 10
+            limitePoblacion += edificio.unidadesPosibles
         return limitePoblacion
 
     @property
@@ -87,16 +82,16 @@ class Jugador():
     # METODOS
     @classmethod
     def __validarNombre(cls, nombre):
-        if nombre in Jugador.__listaNombres:
+        if nombre in cls.__listaNombres:
             raise Exception(f"{error}Error: Nombre ya Utilizado{reset}")
-        Jugador.__listaNombres.append(nombre)
+        cls.__listaNombres.append(nombre)
         return nombre
 
     @classmethod
     def __validarColor(cls, color):
-        if color in Jugador.__listaColores:
+        if color in cls.__listaColores:
             raise Exception(f"{error}Error: Color ya Utilizado{reset}")
-        Jugador.__listaColores.append(color)
+        cls.__listaColores.append(color)
         return color
 
     def comprarEdificio(self):
