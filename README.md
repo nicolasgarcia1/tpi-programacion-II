@@ -4,7 +4,7 @@ Copia del videojuego Warcraft.
 
 ## Descripción
 
-Proyecto integrador para la materia Programación-II desarrollado en Python. Consiste en un videojuego simil Warcraft III en el que el jugador podrá dirigir su propia partida. El menú principal dispondrá 3 opciones 'Comenzar partida', 'Editar partida' y 'Cerrar juego'.
+Proyecto integrador para la materia Programación-II desarrollado en Python. Consiste en un videojuego simil Warcraft III en el que el jugador podrá dirigir su propia partida. El menú principal dispondrá 3 opciones 'Comenzar partida', 'Cargar partida' y 'Salir'.
 
 ### Comenzar partida
 
