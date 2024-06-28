@@ -108,7 +108,7 @@ class Jugador():
         newOro = self.oro - miUnidad.precioCompra
         self.oro = newOro
 
-    def eliminarUnidad(self, unidadElegida):
+    def eliminarUnidad(self, unidadElegida:Unidad):
         self.__unidades.remove(unidadElegida)
        
     def perder(self):
