@@ -39,5 +39,14 @@ Finaliza la ejecución del programa. Los datos no serán guardados.
 ## Desarrolladores
 
 - **Facundo Solari** - [@facundosolari](https://github.com/facundosolari)
+    Legajo: 53348
+
 - **Francisco Rossi** - [@rossifrancisco](https://github.com/rossifrancisco)
-- **Nicolás García** - [@nicolasgarcia1](https://github.com/nicolasgarcia1)
+    Legajo: 53391
+
+- **Nicolás García** - [@nicolasgarcia1](https://github.com/nicolasgarcia1) 
+    Legajo:53341
+
+Comisión 1TUP8, 2024, Programación II
+
+https://github.com/nicolasgarcia1/tpi-programacion-II
